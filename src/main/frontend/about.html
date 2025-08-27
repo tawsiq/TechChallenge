@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About — TechChallenge</title>
+  <meta name="description" content="About the TechChallenge OTC Medication Advisor project." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <nav class="nav container">
+      <a class="brand" href="index.html" aria-label="TechChallenge home">
+        <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4v6h6v4h-6v6h-4v-6H4V8h6V2z"/></svg>
+        <span>TechChallenge</span>
+      </a>
+
+      <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
+      <ul id="menu" class="menu">
+        <li><a href="index.html#how">How it works</a></li>
+        <li><a href="index.html#features">Features</a></li>
+        <li><a href="index.html#safety">Safety</a></li>
+        <li><a class="active" href="about.html" aria-current="page">About</a></li>
+        <li><a href="index.html#help">Help</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="section container">
+    <div class="card prose">
+      <h2>About TechChallenge</h2>
+      <p><strong>TechChallenge</strong> is an educational prototype to support safer over-the-counter (OTC) decisions in the UK. It guides users through the WWHAM intake, applies safety filters (contraindications, interactions, red flags), and presents clear explanations.</p>
+
+      <h3>What the app does</h3>
+      <ul>
+        <li><strong>WWHAM intake</strong>: Who, What, How long, Action taken, Medication.</li>
+        <li><strong>Safety filters</strong>: Removes options that are unsuitable based on answers.</li>
+        <li><strong>Explanations</strong>: Why a product is recommended or ruled out, plus self-care tips.</li>
+        <li><strong>Pharmacy handoff</strong>: Encourages pharmacist/GP referral when red flags appear.</li>
+      </ul>
+
+      <h3>Methodology</h3>
+      <ul>
+        <li>Structured intake aligned to WWHAM.</li>
+        <li>Rule-based mapping from symptom pathways to OTC classes.</li>
+        <li>Red-flag triggers for referral to NHS services or a pharmacist.</li>
+      </ul>
+
+      <h3>Scope & limitations</h3>
+      <p>This tool does not replace professional medical advice. For severe or worsening symptoms, use NHS 111 or seek urgent care as appropriate.</p>
+
+      <h3>Data & privacy</h3>
+      <p>The MVP does not store identifiable personal data. If accounts/history are added later, a clear privacy notice will be provided.</p>
+
+      <p><a href="index.html">Return to Home</a></p>
+      <p class="disclaimer">Disclaimer: Educational prototype only. Always follow advice from qualified healthcare professionals.</p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <small>&copy; TechChallenge. Educational prototype.</small>
+      <nav class="footer-nav">
+        <a href="index.html#help">Help</a>
+        <a href="index.html#contact">Contact</a>
+        <a href="about.html" aria-current="page">About</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

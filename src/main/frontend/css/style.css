@@ -129,3 +129,14 @@
     @keyframes float{from{transform:translateY(0)}to{transform:translateY(6px)}}
   }
   
+
+  /* ABOUT PAGE */
+
+  /* Active nav state for standalone pages */
+.menu a.active,
+.menu a[aria-current="page"] {
+  opacity: 1;
+  color: #fff;
+  border-bottom: 2px solid var(--brand);
+  padding-bottom: 2px;
+}
