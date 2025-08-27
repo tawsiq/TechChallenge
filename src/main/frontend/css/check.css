@@ -1,0 +1,37 @@
+/* Check page additions */
+
+.stepper {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 22px;
+  }
+  .stepper li {
+    background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    border: 1px solid rgba(255,255,255,.10);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-weight: 600;
+    text-align: center;
+    color: var(--muted);
+  }
+  .stepper li.current { color: #fff; border-color: rgba(79,140,255,.5); }
+  
+  .step { margin-top: 10px; }
+  .grid.two { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+  @media (max-width: 800px) { .grid.two { grid-template-columns: 1fr; } }
+  
+  .stack > * + * { margin-top: 12px; }
+  
+  .review { display: grid; gap: 10px; }
+  .review .pair { display: grid; grid-template-columns: 180px 1fr; gap: 8px; }
+  @media (max-width: 640px){ .review .pair { grid-template-columns: 1fr; } }
+  
+  .card.soft { background: rgba(255,255,255,.03); }
+  .actions { display: flex; gap: 10px; margin-top: 14px; }
+  
+  fieldset { border: 1px solid rgba(255,255,255,.12); border-radius: var(--radius-sm); padding: 12px; }
+  legend { padding: 0 6px; }
+  
