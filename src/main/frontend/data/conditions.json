@@ -1,0 +1,106 @@
+{
+    "headache": {
+      "title": "Headache — safety questions",
+      "questions": [
+        { "type": "radio", "name": "sudden_severe", "label": "Is this a sudden, severe (“worst ever”) or thunderclap headache?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "head_injury", "label": "Have you had a recent head injury or fall?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "neuro", "label": "Any weakness, confusion, vision problems, stiff neck, or new neurological symptoms?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "pregnancy", "label": "Are you pregnant?", "options": ["Yes","No"] },
+        { "type": "checkbox", "name": "nsaid_cautions", "label": "Tick any that apply (ibuprofen cautions):", "options": ["Stomach ulcer/bleeding history","On blood thinners (e.g., warfarin)","Severe heart/kidney/liver problems","Asthma triggered by NSAIDs"] },
+        { "type": "checkbox", "name": "paracetamol_limits", "label": "Paracetamol safety:", "options": ["I have taken paracetamol already today","I might exceed the 4g (8 x 500mg) max in 24h"] }
+      ],
+      "alerts": [
+        { "any": [
+            { "field": "sudden_severe", "equals": "Yes" },
+            { "field": "head_injury", "equals": "Yes" },
+            { "field": "neuro", "equals": "Yes" }
+          ],
+          "message": "Red flag: seek urgent advice (NHS 111/GP/A&E as appropriate)."
+        },
+        { "includes": { "field": "paracetamol_limits", "value": "I might exceed the 4g (8 x 500mg) max in 24h" },
+          "message": "Do not exceed the maximum adult paracetamol dose in 24 hours." },
+        { "length": { "field": "nsaid_cautions" },
+          "message": "Ibuprofen may be unsuitable — discuss with a pharmacist." }
+      ]
+    },
+    "hayfever": {
+      "title": "Hay fever — safety questions",
+      "questions": [
+        { "type": "radio", "name": "age_under6", "label": "Is this for a child under 6?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "pregnant_bf", "label": "Pregnant or breastfeeding?", "options": ["Yes","No"] },
+        { "type": "checkbox", "name": "sedation_concerns", "label": "Preferences/concerns:", "options": ["Avoid drowsy antihistamines","Okay with once-daily dosing","Prefer nasal spray"] },
+        { "type": "checkbox", "name": "conditions", "label": "Any of the following?", "options": ["Liver/kidney problems","Heart rhythm problems","Epilepsy"] },
+        { "type": "text", "name": "other_meds", "label": "Other regular medicines (optional):" }
+      ],
+      "alerts": [
+        { "any": [
+            { "field": "pregnant_bf", "equals": "Yes" },
+            { "field": "age_under6", "equals": "Yes" }
+          ],
+          "message": "Check with a pharmacist for suitable antihistamine/spray and dosing."
+        },
+        { "length": { "field": "conditions" },
+          "message": "Some antihistamines may be unsuitable — pharmacist advice recommended." }
+      ]
+    },
+    "indigestion": {
+      "title": "Heartburn / Indigestion — safety questions",
+      "questions": [
+        { "type": "radio", "name": "alarm_symptoms", "label": "Any red flags: difficulty swallowing, vomiting blood/black stools, severe persistent pain, unexplained weight loss?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "duration_over3w", "label": "Symptoms lasting more than 3 weeks?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "night_symptoms", "label": "Symptoms waking you at night or after most meals?", "options": ["Yes","No"] },
+        { "type": "checkbox", "name": "tried", "label": "What have you tried?", "options": ["Antacid","Alginate","Lifestyle changes (smaller meals, less alcohol/spice)","Nothing yet"] },
+        { "type": "text", "name": "meds", "label": "Regular medicines (e.g., NSAIDs) that might trigger symptoms (optional):" }
+      ],
+      "alerts": [
+        { "any": [
+            { "field": "alarm_symptoms", "equals": "Yes" },
+            { "field": "duration_over3w", "equals": "Yes" }
+          ],
+          "message": "Red flag: seek GP/urgent advice."
+        }
+      ]
+    },
+    "diarrhoea": {
+      "title": "Diarrhoea — safety questions",
+      "questions": [
+        { "type": "radio", "name": "age_child", "label": "Is this for a child under 12?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "blood", "label": "Blood or black stools?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "fever", "label": "High fever or severe abdominal pain?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "duration", "label": "Symptoms for more than 7 days?", "options": ["Yes","No"] },
+        { "type": "checkbox", "name": "dehyd", "label": "Signs of dehydration:", "options": ["Very thirsty / dry mouth","Dark urine / not passing urine","Dizziness"] }
+      ],
+      "alerts": [
+        { "any": [
+            { "field": "blood", "equals": "Yes" },
+            { "field": "fever", "equals": "Yes" },
+            { "field": "duration", "equals": "Yes" }
+          ],
+          "message": "Red flag: seek medical advice (NHS 111/GP)."
+        },
+        { "length": { "field": "dehyd" },
+          "message": "Use oral rehydration salts; seek advice if symptoms persist/worsen." },
+        { "field": "age_child", "equals": "Yes",
+          "message": "Loperamide is not suitable under 12 — seek pharmacist advice." }
+      ]
+    },
+    "sorethroat": {
+      "title": "Sore throat — safety questions",
+      "questions": [
+        { "type": "radio", "name": "under5", "label": "Is this for a child under 5?", "options": ["Yes","No"] },
+        { "type": "radio", "name": "duration", "label": "Not improving after 1 week?", "options": ["Yes","No"] },
+        { "type": "checkbox", "name": "severe", "label": "Any of the following?", "options": ["Very high temperature / shivering","Signs of dehydration","Weakened immune system"] },
+        { "type": "checkbox", "name": "pref", "label": "Treatment preferences:", "options": ["Tablets (paracetamol/ibuprofen as appropriate)","Medicated lozenges","Nasal/throat sprays"] }
+      ],
+      "alerts": [
+        { "any": [
+            { "field": "under5", "equals": "Yes" },
+            { "field": "duration", "equals": "Yes" },
+            { "field": "severe", "length": true }
+          ],
+          "message": "Consider pharmacist or GP/111 advice based on severity and age."
+        }
+      ]
+    }
+  }
+  
