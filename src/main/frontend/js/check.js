@@ -48,7 +48,6 @@ const conditionsPromise = fetch('data/conditions.json')
   });
 
 // Build the condition-specific form based on selected condition + WWHAM
-function injectConditionQuestions() {
 async function injectConditionQuestions() {
   await conditionsPromise;
   const c = document.getElementById('condition').value;

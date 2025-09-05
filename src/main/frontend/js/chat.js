@@ -277,6 +277,10 @@ formEl.addEventListener('submit', (e)=>{
   if (!text) return;
   const slot = pendingSlot;
   inputEl.value = '';
+    if (slot === 'safety') {
+    pendingSlot = null;
+    return handleSafety(text);
+  }
   if (slot) return handleSlotFill(text);
   if (state.step === 'safety') return handleSafety(text);
   handleUser(text);
