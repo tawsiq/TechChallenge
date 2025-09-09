@@ -1,0 +1,2435 @@
+{
+  "schema_version": "0.2.0",
+  "generated_at": "2025-09-05T08:14:14.472043Z",
+  "licence_note": "Educational prototype dataset derived from general OTC knowledge, not real BNF content. Do not use for clinical care.",
+  "conditions": [
+    {
+      "id": "headache-simple",
+      "name": "Headache (simple, non-migraine)",
+      "scope_note": "For mild to moderate tension-type headaches in adults. Excludes migraine, cluster headache, head injury, or neurological symptoms.",
+      "symptom_keywords": [
+        "headache",
+        "tension",
+        "throbbing",
+        "band-like",
+        "mild",
+        "moderate"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "red_flags": [
+        {
+          "id": "thunderclap",
+          "text": "Sudden severe 'thunderclap' headache",
+          "refer_to": "A&E",
+          "rationale": "Possible subarachnoid haemorrhage."
+        },
+        {
+          "id": "neurological_deficit",
+          "text": "Weakness, confusion, collapse, new slurred speech, vision loss, or seizure",
+          "refer_to": "A&E",
+          "rationale": "Possible stroke or acute neuro event."
+        },
+        {
+          "id": "head_injury",
+          "text": "Headache following recent head injury",
+          "refer_to": "A&E",
+          "rationale": "Exclude intracranial bleed."
+        },
+        {
+          "id": "meningism",
+          "text": "Fever with neck stiffness, photophobia, non‑blanching rash",
+          "refer_to": "A&E",
+          "rationale": "Meningitis/meningococcal disease."
+        },
+        {
+          "id": "pregnancy_severe",
+          "text": "Severe new headache in pregnancy or post‑partum",
+          "refer_to": "A&E",
+          "rationale": "Consider pre‑eclampsia."
+        },
+        {
+          "id": "age_new_50",
+          "text": "New headache age ≥ 50 years",
+          "refer_to": "GP",
+          "rationale": "Consider temporal arteritis/secondary causes."
+        },
+        {
+          "id": "progressive",
+          "text": "Headache persists or worsens beyond 2 weeks",
+          "refer_to": "GP",
+          "rationale": "Needs assessment to exclude secondary cause."
+        }
+      ],
+      "default_self_care": [
+        "Rest, hydration, regular meals; avoid alcohol excess.",
+        "Consider sleep hygiene and stress reduction.",
+        "Limit screen time and take breaks.",
+        "Keep a simple headache diary if recurrent."
+      ],
+      "options": [
+        {
+          "class_id": "paracetamol",
+          "class_name": "Paracetamol (acetaminophen)",
+          "typical_use": "First‑line analgesic for simple headache.",
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null,
+            "note": "For demo only; under‑16 dosing not included—refer to pharmacist."
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": "Short‑term use acceptable at lowest effective dose."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": "Compatible."
+          },
+          "contraindications": [
+            "severe liver disease",
+            "alcohol misuse"
+          ],
+          "interactions_flags": [
+            "regular alcohol intake",
+            "other paracetamol‑containing products"
+          ],
+          "dose_adult": "500 mg–1 g every 4–6 hours as needed; MAX 4 g in 24 hours (explanation only).",
+          "example_products": [
+            "Paracetamol 500 mg tablets"
+          ],
+          "why": [
+            "Gentle on stomach; generally safe in pregnancy if needed.",
+            "Avoid duplication with combination cold/flu products."
+          ],
+          "self_care": [
+            "Avoid exceeding stated dose; check labels for paracetamol in other products."
+          ]
+        },
+        {
+          "class_id": "ibuprofen",
+          "class_name": "Ibuprofen (NSAID)",
+          "typical_use": "Alternative if no contraindications.",
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "avoid",
+            "note": "Avoid in pregnancy (especially 3rd trimester)."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": "Small amounts in milk; generally compatible short‑term."
+          },
+          "contraindications": [
+            "active or history of peptic ulcer/bleed",
+            "severe heart failure",
+            "renal impairment",
+            "NSAID‑sensitive asthma",
+            "on anticoagulants"
+          ],
+          "interactions_flags": [
+            "warfarin",
+            "DOAC",
+            "aspirin (low‑dose)",
+            "ACE inhibitors",
+            "diuretics"
+          ],
+          "dose_adult": "200–400 mg up to three times daily with food; short course (explanation only).",
+          "example_products": [
+            "Ibuprofen 200 mg tablets"
+          ],
+          "why": [
+            "Anti‑inflammatory benefit if tension headache with muscular component."
+          ],
+          "self_care": [
+            "Take with food; stop if indigestion, black stools, or wheeze."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "allergic-rhinitis",
+      "name": "Allergic rhinitis (hay fever)",
+      "scope_note": "Seasonal or perennial symptoms: sneezing, itchy/runny nose, itchy eyes; exclude infection.",
+      "symptom_keywords": [
+        "hay fever",
+        "sneezing",
+        "itchy nose",
+        "runny nose",
+        "itchy eyes",
+        "allergy"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "red_flags": [
+        {
+          "id": "wheeze_breathless",
+          "text": "Wheezing or shortness of breath",
+          "refer_to": "GP",
+          "rationale": "Possible uncontrolled asthma."
+        },
+        {
+          "id": "severe_epistaxis",
+          "text": "Frequent nosebleeds or unilateral blockage",
+          "refer_to": "GP",
+          "rationale": "ENT assessment."
+        },
+        {
+          "id": "severe_eye_pain",
+          "text": "Eye pain, photophobia, or visual loss",
+          "refer_to": "A&E",
+          "rationale": "Ophthalmic emergency."
+        }
+      ],
+      "default_self_care": [
+        "Allergen avoidance: close windows, shower after being outdoors, use wrap‑around sunglasses.",
+        "Regular saline nasal irrigation can help.",
+        "Check daily pollen forecast and pre‑dose before exposure."
+      ],
+      "options": [
+        {
+          "class_id": "oral-non-sedating-antihistamines",
+          "class_name": "Oral non‑sedating antihistamines",
+          "typical_use": "First‑line for sneezing/itch/eyes.",
+          "members_examples": [
+            "Cetirizine 10 mg",
+            "Loratadine 10 mg",
+            "Fexofenadine 120 mg (OTC age limits vary)"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null,
+            "note": "Under‑16 dosing not included in demo."
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Loratadine or cetirizine often preferred if needed—seek pharmacist/GP advice."
+          },
+          "breastfeeding": {
+            "suitability": "caution",
+            "note": "Small amounts in milk; monitor infant for drowsiness."
+          },
+          "contraindications": [
+            "severe renal impairment (cetirizine)"
+          ],
+          "interactions_flags": [
+            "sedating medicines (drowsiness risk)"
+          ],
+          "dose_adult": "Once daily typical (explanation only).",
+          "example_products": [
+            "Cetirizine 10 mg tablets",
+            "Loratadine 10 mg tablets"
+          ],
+          "why": [
+            "Good symptom control with low sedation."
+          ],
+          "self_care": [
+            "Avoid alcohol if drowsy; try at night first if unsure."
+          ]
+        },
+        {
+          "class_id": "intranasal-corticosteroids",
+          "class_name": "Intranasal corticosteroids",
+          "typical_use": "Best for nasal congestion and overall control; start several days before peak exposure.",
+          "members_examples": [
+            "Beclometasone",
+            "Fluticasone propionate"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Use lowest effective dose; seek advice if needed."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": "Minimal systemic absorption."
+          },
+          "contraindications": [
+            "recent nasal surgery/ulceration (seek advice)"
+          ],
+          "interactions_flags": [],
+          "dose_adult": "1–2 sprays per nostril once or twice daily (explanation only).",
+          "example_products": [
+            "Fluticasone nasal spray 50 micrograms"
+          ],
+          "why": [
+            "Reduce inflammation and congestion when used regularly."
+          ],
+          "self_care": [
+            "Use daily; point nozzle away from septum; saline before steroid can improve effect."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dyspepsia-heartburn",
+      "name": "Dyspepsia / Heartburn / Indigestion",
+      "scope_note": "Burning behind breastbone or upper abdominal discomfort after meals; exclude alarm features.",
+      "symptom_keywords": [
+        "heartburn",
+        "indigestion",
+        "acid",
+        "reflux",
+        "burning chest"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "red_flags": [
+        {
+          "id": "dysphagia",
+          "text": "Difficulty swallowing or food getting stuck",
+          "refer_to": "GP",
+          "rationale": "Urgent assessment required."
+        },
+        {
+          "id": "gi_bleed",
+          "text": "Vomiting blood or black, tarry stools",
+          "refer_to": "A&E",
+          "rationale": "GI bleed."
+        },
+        {
+          "id": "unexplained_weight_loss",
+          "text": "Unintentional weight loss or persistent vomiting",
+          "refer_to": "GP",
+          "rationale": "Serious pathology to exclude."
+        },
+        {
+          "id": "new_over55",
+          "text": "New, persistent dyspepsia age ≥ 55",
+          "refer_to": "GP",
+          "rationale": "NICE ‘alarm’ feature."
+        },
+        {
+          "id": "chest_pain_exertional",
+          "text": "Chest pain on exertion, radiating to arm/jaw, or with breathlessness",
+          "refer_to": "A&E",
+          "rationale": "Possible cardiac cause."
+        }
+      ],
+      "default_self_care": [
+        "Smaller meals; avoid late‑night eating; elevate head of bed for night symptoms.",
+        "Limit trigger foods/drinks: alcohol, spicy/fatty foods, caffeine, chocolate, mint.",
+        "Review NSAID use and smoking; weight management if needed."
+      ],
+      "options": [
+        {
+          "class_id": "alginates-antsacids",
+          "class_name": "Alginates and antacids",
+          "typical_use": "First‑line for post‑prandial heartburn.",
+          "members_examples": [
+            "Sodium alginate + potassium bicarbonate",
+            "Calcium carbonate"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": "Alginates often preferred in pregnancy."
+          },
+          "breastfeeding": {
+            "suitability": "ok"
+          },
+          "contraindications": [
+            "renal impairment (some antacids)",
+            "low‑sodium diet (check formulations)"
+          ],
+          "interactions_flags": [
+            "separate from other oral meds by 2–3 hours"
+          ],
+          "dose_adult": "After meals and at bedtime as required (explanation only).",
+          "example_products": [
+            "Alginate suspension",
+            "Calcium carbonate chewable tablets"
+          ],
+          "why": [
+            "Fast symptom relief; foam barrier for reflux."
+          ],
+          "self_care": [
+            "Avoid lying flat after meals; watch trigger foods."
+          ]
+        },
+        {
+          "class_id": "omeprazole-otc",
+          "class_name": "Omeprazole (OTC strength)",
+          "typical_use": "Short course for frequent heartburn (≥ 2 days/week) when alginates insufficient.",
+          "members_examples": [
+            "Omeprazole 10 mg"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Seek pharmacist/GP advice before use."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": "Minimal infant exposure expected."
+          },
+          "contraindications": [
+            "liver disease (seek advice)"
+          ],
+          "interactions_flags": [
+            "clopidogrel (reduced effect)",
+            "warfarin (monitor)"
+          ],
+          "dose_adult": "10 mg once daily for up to 14 days; see pack (explanation only).",
+          "example_products": [
+            "Omeprazole 10 mg capsules"
+          ],
+          "why": [
+            "Reduces gastric acid production for sustained control."
+          ],
+          "self_care": [
+            "If symptoms persist >14 days or recur quickly, seek GP review."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "acute-diarrhoea",
+      "name": "Acute diarrhoea (adult)",
+      "scope_note": "Loose or watery stools for < 72 hours without blood or high fever in otherwise healthy adult.",
+      "symptom_keywords": [
+        "diarrhoea",
+        "loose stools",
+        "tummy bug",
+        "gastroenteritis"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding",
+        "travel_recent",
+        "fever"
+      ],
+      "red_flags": [
+        {
+          "id": "blood_in_stool",
+          "text": "Blood or mucus in stool, or black stools",
+          "refer_to": "GP",
+          "rationale": "Infective/inflammatory cause."
+        },
+        {
+          "id": "high_fever",
+          "text": "High fever > 38.5°C or severe abdominal pain",
+          "refer_to": "GP",
+          "rationale": "Bacterial infection or complications."
+        },
+        {
+          "id": "dehydration",
+          "text": "Signs of dehydration (very drowsy, no urine in 8+ hours, dizziness/fainting)",
+          "refer_to": "A&E",
+          "rationale": "Severe dehydration."
+        },
+        {
+          "id": "duration_3days",
+          "text": "Symptoms > 72 hours",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        },
+        {
+          "id": "recent_antibiotics",
+          "text": "Recent antibiotic use or hospital stay",
+          "refer_to": "GP",
+          "rationale": "Consider C. difficile."
+        },
+        {
+          "id": "travel_with_fever",
+          "text": "Recent travel with fever",
+          "refer_to": "GP",
+          "rationale": "Travel‑related infection."
+        },
+        {
+          "id": "pregnancy",
+          "text": "Pregnancy with significant symptoms",
+          "refer_to": "Pharmacist",
+          "rationale": "Tailored advice required."
+        }
+      ],
+      "default_self_care": [
+        "Prioritise oral rehydration; small, frequent sips. Eat light meals (BRAT not required).",
+        "Avoid alcohol; consider hand hygiene to reduce spread.",
+        "Stay off work/school for 48 hours after the last episode."
+      ],
+      "options": [
+        {
+          "class_id": "ors",
+          "class_name": "Oral rehydration salts (ORS)",
+          "typical_use": "First‑line for fluid and electrolyte replacement.",
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null,
+            "note": "Children require weight‑based dosing—outside demo scope."
+          },
+          "pregnancy": {
+            "suitability": "ok"
+          },
+          "breastfeeding": {
+            "suitability": "ok"
+          },
+          "contraindications": [
+            "severe dehydration needing IV fluids"
+          ],
+          "interactions_flags": [],
+          "dose_adult": "Reconstitute per pack; sip frequently (explanation only).",
+          "example_products": [
+            "ORS sachets"
+          ],
+          "why": [
+            "Prevents dehydration; mainstay of treatment."
+          ],
+          "self_care": [
+            "Use alongside light diet; continue usual meds unless advised otherwise."
+          ]
+        },
+        {
+          "class_id": "loperamide",
+          "class_name": "Loperamide",
+          "typical_use": "For short‑term control of diarrhoea when no blood/fever.",
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null,
+            "note": "Demo returns adult guidance only."
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Seek pharmacist/GP advice."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": "Minimal in milk."
+          },
+          "contraindications": [
+            "bloody diarrhoea",
+            "acute ulcerative colitis flare",
+            "abdominal distension"
+          ],
+          "interactions_flags": [],
+          "dose_adult": "2 mg initially, then 2 mg after each loose stool; MAX 16 mg/day (explanation only).",
+          "example_products": [
+            "Loperamide 2 mg capsules"
+          ],
+          "why": [
+            "Reduces stool frequency and urgency."
+          ],
+          "self_care": [
+            "Stop if constipation, abdominal swelling, or if no improvement after 48 hours."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sore-throat-acute",
+      "name": "Sore throat (acute)",
+      "scope_note": "Painful throat for < 7 days without breathing difficulty; likely viral. Focus on analgesia and comfort.",
+      "symptom_keywords": [
+        "sore throat",
+        "painful swallow",
+        "pharyngitis"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding",
+        "fever"
+      ],
+      "red_flags": [
+        {
+          "id": "airway_compromise",
+          "text": "Difficulty breathing, drooling, or muffled voice",
+          "refer_to": "A&E",
+          "rationale": "Possible epiglottitis/peritonsillar abscess."
+        },
+        {
+          "id": "severe_unilateral",
+          "text": "Severe one‑sided throat pain with trismus or swelling",
+          "refer_to": "A&E",
+          "rationale": "Quinsy (peritonsillar abscess)."
+        },
+        {
+          "id": "rash_fever",
+          "text": "Rash with high fever or very unwell",
+          "refer_to": "GP",
+          "rationale": "Consider scarlet fever."
+        },
+        {
+          "id": "duration_7days",
+          "text": "Symptoms > 7 days or recurrent episodes",
+          "refer_to": "GP",
+          "rationale": "Further assessment."
+        }
+      ],
+      "default_self_care": [
+        "Warm fluids or ice lollies; rest; avoid smoking.",
+        "Honey & lemon drinks can soothe (not for <1 year).",
+        "Gargling with warm salty water may help."
+      ],
+      "options": [
+        {
+          "class_id": "analgesics-throat",
+          "class_name": "Simple analgesics",
+          "typical_use": "Pain/fever relief.",
+          "members_examples": [
+            "Paracetamol",
+            "Ibuprofen (if suitable)"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Paracetamol preferred if needed; avoid NSAIDs in pregnancy."
+          },
+          "breastfeeding": {
+            "suitability": "ok"
+          },
+          "contraindications": [
+            "See specific drug profiles"
+          ],
+          "interactions_flags": [
+            "See specific drug profiles"
+          ],
+          "dose_adult": "Use per pack for pain/fever (explanation only).",
+          "example_products": [
+            "Paracetamol 500 mg tablets"
+          ],
+          "why": [
+            "Mainstay of symptom relief."
+          ],
+          "self_care": [
+            "Stay hydrated; consider alternating warm/cold drinks for comfort."
+          ]
+        },
+        {
+          "class_id": "local-anaesthetic-lozenges",
+          "class_name": "Local anaesthetic/antiseptic lozenges or sprays",
+          "typical_use": "Short‑term mouth/throat pain relief.",
+          "members_examples": [
+            "Benzocaine lozenges",
+            "Chlorhexidine/cetylpyridinium lozenges"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null,
+            "note": "Benzocaine not for children in this demo."
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Seek pharmacist advice for local anaesthetics."
+          },
+          "breastfeeding": {
+            "suitability": "ok"
+          },
+          "contraindications": [
+            "Allergy to local anaesthetics (ester type)"
+          ],
+          "interactions_flags": [],
+          "dose_adult": "Per pack; maximum lozenges/day (explanation only).",
+          "example_products": [
+            "Benzocaine 1.5 mg lozenges"
+          ],
+          "why": [
+            "Topical relief when swallowed is painful."
+          ],
+          "self_care": [
+            "Do not exceed stated number; avoid prolonged use without review."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "common-cold",
+      "name": "Common cold / nasal congestion",
+      "scope_note": "Self‑limiting viral URTI with nasal congestion, runny nose, sore throat; exclude influenza/COVID when relevant.",
+      "symptom_keywords": [
+        "cold",
+        "blocked nose",
+        "stuffy",
+        "congestion",
+        "runny nose",
+        "sniffles"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "shortness_of_breath",
+          "text": "Shortness of breath, chest pain, or severe systemic illness",
+          "refer_to": "GP",
+          "rationale": "May indicate complications or alternative diagnosis."
+        },
+        {
+          "id": "symptoms_persist_10d",
+          "text": "Symptoms persisting >10 days without improvement",
+          "refer_to": "GP",
+          "rationale": "Consider sinusitis or other causes."
+        },
+        {
+          "id": "child_under_2_with_fever",
+          "text": "Infant <2 with fever or poor feeding",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        }
+      ],
+      "default_self_care": [
+        "Rest, fluids, and honey/lemon drinks (not for <1 year).",
+        "Saline nasal sprays/rinses can help.",
+        "Avoid smoking exposure; consider paracetamol/ibuprofen for aches if suitable."
+      ],
+      "options": [
+        {
+          "class_id": "topical-decongestant",
+          "class_name": "Topical nasal decongestant",
+          "typical_use": "Short‑term relief of congestion",
+          "members_examples": [
+            "Xylometazoline 0.1%"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": "Avoid unless advised."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [
+            "hypertension",
+            "cardiovascular disease",
+            "hyperthyroidism"
+          ],
+          "interactions_flags": [],
+          "dose_adult": "1 spray per nostril up to 2–3 times daily for max 7 days (explanation only).",
+          "example_products": [
+            "Xylometazoline nasal spray"
+          ],
+          "why": [
+            "Rapid decongestion; limit use to avoid rebound."
+          ],
+          "self_care": [
+            "Limit to ≤7 days to prevent rebound congestion."
+          ]
+        },
+        {
+          "class_id": "saline",
+          "class_name": "Saline nasal spray/irrigation",
+          "typical_use": "Symptom relief and mucus clearance",
+          "members_examples": [
+            "0.9% sodium chloride"
+          ],
+          "age_limits": {
+            "min_years": 0,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Use as needed (explanation only).",
+          "example_products": [
+            "Saline spray"
+          ],
+          "why": [
+            "Safe option for most users."
+          ],
+          "self_care": []
+        },
+        {
+          "class_id": "oral-decongestant",
+          "class_name": "Oral decongestant",
+          "typical_use": "Short‑term relief of congestion",
+          "members_examples": [
+            "Pseudoephedrine"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "avoid",
+            "note": "Avoid in pregnancy."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [
+            "hypertension",
+            "MAOI use within 14 days",
+            "severe heart disease",
+            "hyperthyroidism"
+          ],
+          "interactions_flags": [
+            "MAOI",
+            "moclobemide"
+          ],
+          "dose_adult": "Per pack; short courses only (explanation only).",
+          "example_products": [
+            "Pseudoephedrine tablets"
+          ],
+          "why": [
+            "Useful when topical not tolerated."
+          ],
+          "self_care": [
+            "Avoid near bedtime due to stimulation."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cough-acute",
+      "name": "Cough (dry or productive)",
+      "scope_note": "Acute cough <3 weeks with cold; exclude red flags.",
+      "symptom_keywords": [
+        "cough",
+        "chesty",
+        "tickly",
+        "dry cough",
+        "chesty cough"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "cough_3weeks",
+          "text": "Cough lasting ≥3 weeks",
+          "refer_to": "GP",
+          "rationale": "Chronic cough needs assessment."
+        },
+        {
+          "id": "cough_blood",
+          "text": "Coughing up blood, chest pain, breathlessness, high fever",
+          "refer_to": "GP",
+          "rationale": "Potential serious illness."
+        },
+        {
+          "id": "asthma_exacerbation",
+          "text": "Known asthma/COPD with worsening symptoms",
+          "refer_to": "GP",
+          "rationale": "Needs clinical review."
+        }
+      ],
+      "default_self_care": [
+        "Honey in warm drinks (not for <1 year).",
+        "Steam from a hot shower can soothe (avoid burns).",
+        "Stay hydrated; rest."
+      ],
+      "options": [
+        {
+          "class_id": "simple-linctus",
+          "class_name": "Simple linctus / demulcent",
+          "typical_use": "Soothes throat and cough reflex",
+          "members_examples": [
+            "Glycerin, honey & lemon"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Glycerin & lemon linctus"
+          ],
+          "why": [
+            "Symptomatic relief; safe profile."
+          ],
+          "self_care": []
+        },
+        {
+          "class_id": "dextromethorphan",
+          "class_name": "Dextromethorphan (antitussive)",
+          "typical_use": "For dry/tickly cough (limited evidence)",
+          "members_examples": [
+            "Dextromethorphan"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [
+            "productive cough with significant phlegm"
+          ],
+          "interactions_flags": [
+            "MAOI",
+            "SSRI"
+          ],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Dextromethorphan syrup"
+          ],
+          "why": [
+            "May reduce cough frequency; avoid with MAOIs/SSRIs."
+          ],
+          "self_care": []
+        },
+        {
+          "class_id": "guaifenesin",
+          "class_name": "Guaifenesin (expectorant)",
+          "typical_use": "For chesty/productive cough",
+          "members_examples": [
+            "Guaifenesin"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Guaifenesin syrup"
+          ],
+          "why": [
+            "May loosen mucus."
+          ],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "constipation",
+      "name": "Constipation (uncomplicated)",
+      "scope_note": "Infrequent or hard stools without concerning features.",
+      "symptom_keywords": [
+        "constipation",
+        "hard stools",
+        "straining"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "rectal_bleeding",
+          "text": "Unexplained rectal bleeding, weight loss, anaemia, or change in bowel habit >6 weeks (age ≥50)",
+          "refer_to": "GP",
+          "rationale": "Alarm features."
+        },
+        {
+          "id": "severe_abdominal_pain",
+          "text": "Severe, persistent abdominal pain or vomiting",
+          "refer_to": "GP",
+          "rationale": "Possible obstruction."
+        },
+        {
+          "id": "new_sudden_over55",
+          "text": "New constipation in age ≥55",
+          "refer_to": "GP",
+          "rationale": "Assess cause."
+        }
+      ],
+      "default_self_care": [
+        "Increase fluid and fibre intake; regular toilet routine after meals.",
+        "Activity/exercise as tolerated.",
+        "Review constipating meds (e.g., opioids, anticholinergics)."
+      ],
+      "options": [
+        {
+          "class_id": "bulk-forming",
+          "class_name": "Bulk-forming laxatives",
+          "typical_use": "First‑line if low fibre intake",
+          "members_examples": [
+            "Ispaghula husk"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "With plenty of water; effect in 24–72 h (explanation only).",
+          "example_products": [
+            "Ispaghula sachets"
+          ],
+          "why": [
+            "Restores stool bulk/softness."
+          ],
+          "self_care": []
+        },
+        {
+          "class_id": "osmotic",
+          "class_name": "Osmotic laxatives",
+          "typical_use": "Second‑line or if stool is hard",
+          "members_examples": [
+            "Macrogol",
+            "Lactulose"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack; effect in 24–48 h (lactulose slower) (explanation only).",
+          "example_products": [
+            "Macrogol sachets",
+            "Lactulose solution"
+          ],
+          "why": [
+            "Softens stool by drawing water into bowel."
+          ],
+          "self_care": []
+        },
+        {
+          "class_id": "stimulant",
+          "class_name": "Stimulant laxatives",
+          "typical_use": "Short‑term rescue if needed",
+          "members_examples": [
+            "Senna",
+            "Bisacodyl"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "At night for effect next morning (explanation only).",
+          "example_products": [
+            "Senna tablets",
+            "Bisacodyl tablets"
+          ],
+          "why": [
+            "Increases bowel motility; short courses only."
+          ],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "haemorrhoids",
+      "name": "Haemorrhoids (piles)",
+      "scope_note": "Uncomplicated external haemorrhoids with itching/discomfort.",
+      "symptom_keywords": [
+        "haemorrhoids",
+        "piles",
+        "itchy bottom",
+        "rectal itch"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "rectal_bleed_change_habit",
+          "text": "Rectal bleeding with change in bowel habit, weight loss, anaemia",
+          "refer_to": "GP",
+          "rationale": "Alarm features."
+        },
+        {
+          "id": "severe_pain_thrombosed",
+          "text": "Severe pain/swelling (possible thrombosed pile)",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        }
+      ],
+      "default_self_care": [
+        "Increase fibre, fluids; avoid straining and prolonged sitting.",
+        "Warm baths to soothe; gentle hygiene; avoid perfumed wipes."
+      ],
+      "options": [
+        {
+          "class_id": "local-anaesthetic-haem",
+          "class_name": "Local anaesthetic/soothing ointments",
+          "typical_use": "Short‑term itch relief",
+          "members_examples": [
+            "Lidocaine"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply per pack; short courses (explanation only).",
+          "example_products": [
+            "Lidocaine ointment"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "topical-steroid-haem",
+          "class_name": "Topical hydrocortisone (OTC strength)",
+          "typical_use": "Short course for inflammation/itch",
+          "members_examples": [
+            "Hydrocortisone 1%"
+          ],
+          "age_limits": {
+            "min_years": 18,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Max 7 days (explanation only).",
+          "example_products": [
+            "Hydrocortisone cream 1%"
+          ],
+          "why": [
+            "Reduces inflammation; avoid long-term use."
+          ],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "mouth-ulcers",
+      "name": "Mouth ulcers (simple aphthous)",
+      "scope_note": "Small recurrent aphthous ulcers (<1 cm), <3 weeks.",
+      "symptom_keywords": [
+        "mouth ulcer",
+        "aphthous",
+        "canker sore"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "ulcers_3weeks",
+          "text": "Ulcer persisting >3 weeks, very large, or recurrent with systemic symptoms",
+          "refer_to": "GP",
+          "rationale": "Exclude serious causes."
+        },
+        {
+          "id": "involves_lips_tongue_multiple",
+          "text": "Multiple widespread painful ulcers or suspected infection",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        }
+      ],
+      "default_self_care": [
+        "Avoid spicy/acidic foods; use a soft toothbrush.",
+        "Consider vitamin/iron deficiency check if frequent."
+      ],
+      "options": [
+        {
+          "class_id": "chlorhexidine",
+          "class_name": "Chlorhexidine mouthwash",
+          "typical_use": "Reduce bacterial load; may aid healing",
+          "members_examples": [
+            "Chlorhexidine 0.2%"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Rinse twice daily; avoid immediately before/after toothbrushing (explanation only).",
+          "example_products": [
+            "Chlorhexidine mouthwash"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "benzydamine",
+          "class_name": "Benzydamine mouthwash/spray",
+          "typical_use": "Topical analgesic/anti‑inflammatory",
+          "members_examples": [
+            "Benzydamine"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Every 1.5–3 hours as needed (explanation only).",
+          "example_products": [
+            "Benzydamine spray"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "topical-corticosteroid-buccal",
+          "class_name": "Hydrocortisone buccal tablets (P)",
+          "typical_use": "For short‑term use in recurrent aphthous ulcers",
+          "members_examples": [
+            "Hydrocortisone 2.5 mg buccal"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack; pharmacist advice required (explanation only).",
+          "example_products": [
+            "Hydrocortisone buccal tablets"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "cold-sore",
+      "name": "Cold sores (herpes labialis)",
+      "scope_note": "Tingling or blistering on lips; usually HSV‑1; treat early.",
+      "symptom_keywords": [
+        "cold sore",
+        "herpes labialis",
+        "tingling lip",
+        "lip blister"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "eye_involvement",
+          "text": "Eye involvement or severe facial involvement",
+          "refer_to": "A&E",
+          "rationale": "Ophthalmic emergency risk."
+        },
+        {
+          "id": "frequent_recurrences",
+          "text": "Very frequent or severe recurrences or immunocompromise",
+          "refer_to": "GP",
+          "rationale": "May need antiviral assessment."
+        }
+      ],
+      "default_self_care": [
+        "Avoid close contact when lesions active; keep hands clean.",
+        "Use separate towels; avoid picking."
+      ],
+      "options": [
+        {
+          "class_id": "aciclovir-cream",
+          "class_name": "Aciclovir 5% cream",
+          "typical_use": "Apply at first tingling stage",
+          "members_examples": [
+            "Aciclovir"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply 5 times/day for ~5 days (explanation only).",
+          "example_products": [
+            "Aciclovir 5% cream"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "head-lice",
+      "name": "Head lice (pediculosis capitis)",
+      "scope_note": "Itchy scalp with visible lice or nits; treat all household contacts if needed.",
+      "symptom_keywords": [
+        "head lice",
+        "nits",
+        "itchy scalp lice"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "eyelash_involvement",
+          "text": "Eyelash involvement",
+          "refer_to": "GP",
+          "rationale": "Needs specific treatment."
+        },
+        {
+          "id": "secondary_infection",
+          "text": "Signs of secondary infection (weeping, crusting)",
+          "refer_to": "GP",
+          "rationale": "May need antibiotics."
+        }
+      ],
+      "default_self_care": [
+        "Wet‑combing with conditioner every 3–4 days for 2 weeks.",
+        "Check all close contacts; treat simultaneously."
+      ],
+      "options": [
+        {
+          "class_id": "dimeticone",
+          "class_name": "Dimeticone lotions/sprays",
+          "typical_use": "Physical insecticide; low resistance risk",
+          "members_examples": [
+            "Dimeticone 4%"
+          ],
+          "age_limits": {
+            "min_years": 2,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply per pack; repeat after 7 days (explanation only).",
+          "example_products": [
+            "Dimeticone lotion"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "isopropyl-myristate",
+          "class_name": "Isopropyl myristate/cyclomethicone",
+          "typical_use": "Physical action",
+          "members_examples": [
+            "Isopropyl myristate"
+          ],
+          "age_limits": {
+            "min_years": 2,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Isopropyl myristate spray"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "threadworm",
+      "name": "Threadworm (enterobiasis)",
+      "scope_note": "Nocturnal perianal itch; visible small white worms.",
+      "symptom_keywords": [
+        "threadworm",
+        "worms",
+        "pinworm",
+        "itchy bottom night"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "weight_loss_blood",
+          "text": "Weight loss, blood in stool, severe pain",
+          "refer_to": "GP",
+          "rationale": "Atypical features."
+        },
+        {
+          "id": "pregnancy",
+          "text": "Pregnancy with symptoms",
+          "refer_to": "Pharmacist",
+          "rationale": "Treatment choice requires advice."
+        }
+      ],
+      "default_self_care": [
+        "Strict hand hygiene; short nails; morning shower to remove eggs; daily towel/bed linen changes for 2 weeks.",
+        "Treat household contacts simultaneously."
+      ],
+      "options": [
+        {
+          "class_id": "mebendazole",
+          "class_name": "Mebendazole (P)",
+          "typical_use": "Single dose repeat in 2 weeks; pharmacist‑supplied",
+          "members_examples": [
+            "Mebendazole 100 mg"
+          ],
+          "age_limits": {
+            "min_years": 2,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "avoid",
+            "note": "Avoid unless medical advice."
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Single 100 mg dose; repeat in 2 weeks (explanation only).",
+          "example_products": [
+            "Mebendazole 100 mg tablet"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "fungal-skin",
+      "name": "Superficial fungal infections (athlete’s foot, ringworm, jock itch)",
+      "scope_note": "Localised tinea corporis/cruris/pedis without nail/scalp involvement.",
+      "symptom_keywords": [
+        "athlete's foot",
+        "ringworm",
+        "tinea",
+        "jock itch",
+        "fungal rash"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "nail_or_scalp",
+          "text": "Nail or scalp involvement",
+          "refer_to": "GP",
+          "rationale": "Often requires systemic therapy."
+        },
+        {
+          "id": "widespread_failure",
+          "text": "Widespread rash or failure of OTC after 2–4 weeks",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        }
+      ],
+      "default_self_care": [
+        "Keep area clean/dry; change socks/underwear daily; avoid sharing towels.",
+        "Continue treatment for 1–2 weeks after rash clears."
+      ],
+      "options": [
+        {
+          "class_id": "imidazoles-topical",
+          "class_name": "Topical imidazoles",
+          "typical_use": "First‑line for many tinea infections",
+          "members_examples": [
+            "Clotrimazole 1%",
+            "Miconazole 2%"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply 2–3 times daily (explanation only).",
+          "example_products": [
+            "Clotrimazole cream"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "terbinafine-topical",
+          "class_name": "Topical terbinafine",
+          "typical_use": "Often shorter courses",
+          "members_examples": [
+            "Terbinafine 1%"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Once/twice daily for 1–2 weeks (explanation only).",
+          "example_products": [
+            "Terbinafine cream"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "eczema-mild",
+      "name": "Dry skin / eczema / contact dermatitis (mild)",
+      "scope_note": "Mild dry, itchy, inflamed skin without infection.",
+      "symptom_keywords": [
+        "eczema",
+        "dry skin",
+        "dermatitis",
+        "itchy skin"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "infected_eczema",
+          "text": "Weeping, yellow crusts, or rapidly worsening redness/pain",
+          "refer_to": "GP",
+          "rationale": "Possible infection."
+        },
+        {
+          "id": "widespread_severe",
+          "text": "Widespread severe eczema or failure of emollients/steroid after 7 days",
+          "refer_to": "GP",
+          "rationale": "Needs review."
+        }
+      ],
+      "default_self_care": [
+        "Use generous, frequent emollients; soap substitutes; avoid known irritants.",
+        "Apply topical steroids thinly once daily for flares, short course only on appropriate sites."
+      ],
+      "options": [
+        {
+          "class_id": "emollients",
+          "class_name": "Leave‑on emollients",
+          "typical_use": "First‑line for dryness/itch",
+          "members_examples": [
+            "Paraffin‑based creams",
+            "Urea‑based creams"
+          ],
+          "age_limits": {
+            "min_years": 0,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply liberally and often (explanation only).",
+          "example_products": [
+            "Emollient cream"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "hydrocortisone-1",
+          "class_name": "Hydrocortisone 1% (OTC)",
+          "typical_use": "Short course mild steroid for body (not face/genitals/broken skin)",
+          "members_examples": [
+            "Hydrocortisone 1%"
+          ],
+          "age_limits": {
+            "min_years": 12,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Once daily up to 7 days (explanation only).",
+          "example_products": [
+            "Hydrocortisone 1% cream"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "dry-eye",
+      "name": "Dry eye disease",
+      "scope_note": "Grittiness, burning, fluctuating vision; worse with screens, wind, air‑con.",
+      "symptom_keywords": [
+        "dry eye",
+        "gritty eyes",
+        "burning eyes",
+        "tired eyes"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "painful_red_eye",
+          "text": "Acute painful red eye, photophobia, or reduced vision",
+          "refer_to": "A&E",
+          "rationale": "Ocular emergency possible."
+        },
+        {
+          "id": "unilateral_persistent",
+          "text": "Persistent unilateral symptoms or discharge",
+          "refer_to": "GP",
+          "rationale": "Consider alternative pathology."
+        }
+      ],
+      "default_self_care": [
+        "Follow 20‑20‑20 rule for screens; blink consciously.",
+        "Use preservative‑free lubricants if frequent dosing."
+      ],
+      "options": [
+        {
+          "class_id": "hypromellose",
+          "class_name": "Hypromellose/carmellose drops",
+          "typical_use": "First‑line lubricants",
+          "members_examples": [
+            "Hypromellose",
+            "Carmellose"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "As needed; separate from other eye meds (explanation only).",
+          "example_products": [
+            "Hypromellose drops"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "carbomer-gel",
+          "class_name": "Carbomer or hyaluronic acid gels",
+          "typical_use": "Night‑time or severe dryness",
+          "members_examples": [
+            "Carbomer 0.2–0.3%",
+            "Sodium hyaluronate"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Carbomer gel"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "earwax",
+      "name": "Earwax (cerumen impaction)",
+      "scope_note": "Fullness, reduced hearing without pain/discharge.",
+      "symptom_keywords": [
+        "earwax",
+        "blocked ear",
+        "wax",
+        "reduced hearing wax"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "pain_discharge",
+          "text": "Ear pain, discharge, fever, or suspected perforation/grommets",
+          "refer_to": "GP",
+          "rationale": "Do not self‑treat wax."
+        }
+      ],
+      "default_self_care": [
+        "Use softeners for several days before any irrigation by a professional.",
+        "Do not insert cotton buds."
+      ],
+      "options": [
+        {
+          "class_id": "olive-oil",
+          "class_name": "Olive oil drops/spray",
+          "typical_use": "Soften earwax",
+          "members_examples": [
+            "Olive oil"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "2–3 drops 2–3 times daily for several days (explanation only).",
+          "example_products": [
+            "Olive oil ear drops"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "urea-h2o2",
+          "class_name": "Urea hydrogen peroxide drops",
+          "typical_use": "Cerumenolytic",
+          "members_examples": [
+            "Urea hydrogen peroxide"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Per pack (explanation only).",
+          "example_products": [
+            "Carbamide peroxide ear drops"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "insect-bites",
+      "name": "Insect bites & stings (uncomplicated)",
+      "scope_note": "Localised itch/swelling without systemic symptoms.",
+      "symptom_keywords": [
+        "insect bite",
+        "sting",
+        "mosquito",
+        "wasp sting"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "anaphylaxis",
+          "text": "Breathing difficulty, lip/tongue swelling, dizziness",
+          "refer_to": "A&E",
+          "rationale": "Possible anaphylaxis."
+        },
+        {
+          "id": "infection",
+          "text": "Increasing redness, warmth, pain, pus or fever",
+          "refer_to": "GP",
+          "rationale": "Possible cellulitis."
+        }
+      ],
+      "default_self_care": [
+        "Wash with soap/water; apply cold pack; avoid scratching.",
+        "Consider antihistamine for itch; hydrocortisone 1% short course for inflammation (age limits apply)."
+      ],
+      "options": [
+        {
+          "class_id": "oral-antihistamines",
+          "class_name": "Oral non‑sedating antihistamines",
+          "typical_use": "Reduce itch/swelling",
+          "members_examples": [
+            "Cetirizine 10 mg",
+            "Loratadine 10 mg"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Once daily typical (explanation only).",
+          "example_products": [
+            "Cetirizine tablets"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "hc-1-bites",
+          "class_name": "Topical hydrocortisone 1%",
+          "typical_use": "Short course for inflammation (not on broken skin/face)",
+          "members_examples": [
+            "Hydrocortisone 1%"
+          ],
+          "age_limits": {
+            "min_years": 10,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Max 7 days (explanation only).",
+          "example_products": [
+            "Hydrocortisone 1% cream"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "muscle-strain",
+      "name": "Muscular aches, sprains & strains (incl. acute lower back pain without radiculopathy)",
+      "scope_note": "Minor soft‑tissue injuries without red flags; early gentle movement preferred.",
+      "symptom_keywords": [
+        "sprain",
+        "strain",
+        "pulled muscle",
+        "back pain",
+        "muscle ache"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding"
+      ],
+      "triage_only": false,
+      "red_flags": [
+        {
+          "id": "red_flags_back",
+          "text": "Back pain with leg weakness/numbness, bowel/bladder issues, or saddle anaesthesia",
+          "refer_to": "A&E",
+          "rationale": "Possible cauda equina."
+        },
+        {
+          "id": "severe_trauma",
+          "text": "Severe trauma or suspected fracture",
+          "refer_to": "A&E",
+          "rationale": "Urgent imaging may be required."
+        }
+      ],
+      "default_self_care": [
+        "Relative rest 24–48 h, then gradual mobilisation; heat for stiffness, ice for swelling.",
+        "Consider physio advice and posture/ergonomics."
+      ],
+      "options": [
+        {
+          "class_id": "paracetamol",
+          "class_name": "Paracetamol",
+          "typical_use": "First‑line analgesic",
+          "members_examples": [
+            "Paracetamol 500 mg"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "500 mg–1 g every 4–6 h, max 4 g/day (explanation only).",
+          "example_products": [
+            "Paracetamol 500 mg"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "ibuprofen",
+          "class_name": "Ibuprofen (NSAID)",
+          "typical_use": "If no contraindications",
+          "members_examples": [
+            "Ibuprofen 200–400 mg"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "avoid",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [
+            "peptic ulcer",
+            "gi bleed",
+            "heart failure",
+            "renal impairment",
+            "nsaid-sensitive asthma"
+          ],
+          "interactions_flags": [
+            "warfarin",
+            "DOAC",
+            "ACE inhibitor",
+            "diuretic"
+          ],
+          "dose_adult": "200–400 mg up to TID with food (explanation only).",
+          "example_products": [
+            "Ibuprofen 200 mg"
+          ],
+          "why": [],
+          "self_care": []
+        },
+        {
+          "class_id": "topical-nsaid",
+          "class_name": "Topical NSAIDs",
+          "typical_use": "Local pain relief with lower systemic exposure",
+          "members_examples": [
+            "Ibuprofen gel",
+            "Ketoprofen gel"
+          ],
+          "age_limits": {
+            "min_years": 16,
+            "max_years": null
+          },
+          "pregnancy": {
+            "suitability": "caution",
+            "note": ""
+          },
+          "breastfeeding": {
+            "suitability": "ok",
+            "note": ""
+          },
+          "contraindications": [],
+          "interactions_flags": [],
+          "dose_adult": "Apply 3–4 times daily (explanation only).",
+          "example_products": [
+            "Ibuprofen gel"
+          ],
+          "why": [],
+          "self_care": []
+        }
+      ]
+    },
+    {
+      "id": "vaginal-thrush",
+      "name": "Vaginal thrush (vulvovaginal candidiasis) — pharmacist referral",
+      "scope_note": "Itching, soreness, thick white discharge; treat via pharmacist‑supplied options when appropriate.",
+      "symptom_keywords": [
+        "vaginal thrush",
+        "candidiasis",
+        "itching discharge"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding",
+        "vaginal_symptoms"
+      ],
+      "triage_only": true,
+      "red_flags": [
+        {
+          "id": "first_episode_uncertain",
+          "text": "First episode or uncertain diagnosis",
+          "refer_to": "Pharmacist",
+          "rationale": "Confirm suitability."
+        },
+        {
+          "id": "pregnancy",
+          "text": "Pregnancy",
+          "refer_to": "Pharmacist",
+          "rationale": "Product choice differs."
+        },
+        {
+          "id": "recurrent_4_per_year",
+          "text": "≥4 episodes/year or symptoms after OTC treatment",
+          "refer_to": "GP",
+          "rationale": "Needs assessment."
+        }
+      ],
+      "default_self_care": [
+        "Avoid perfumed soaps; wear breathable cotton underwear.",
+        "Complete full course if treated; avoid sexual activity if very sore."
+      ],
+      "options": []
+    },
+    {
+      "id": "uti-women-triage",
+      "name": "Uncomplicated UTI (women 16–64) — triage only",
+      "scope_note": "Dysuria, frequency, urgency without vaginal symptoms; pharmacist assessment recommended.",
+      "symptom_keywords": [
+        "uti",
+        "urine infection",
+        "cystitis",
+        "burning urine",
+        "wee pain"
+      ],
+      "wwham_fields": [
+        "who",
+        "what",
+        "how_long",
+        "action_taken",
+        "medication",
+        "allergies",
+        "conditions",
+        "pregnancy_breastfeeding",
+        "urinary_symptoms"
+      ],
+      "triage_only": true,
+      "red_flags": [
+        {
+          "id": "fever_flank_pain",
+          "text": "Fever, flank pain, nausea/vomiting",
+          "refer_to": "GP",
+          "rationale": "Possible pyelonephritis."
+        },
+        {
+          "id": "pregnancy_or_male",
+          "text": "Pregnancy, male, children, or recurrent UTIs",
+          "refer_to": "GP",
+          "rationale": "Needs clinical assessment."
+        },
+        {
+          "id": "vaginal_symptoms",
+          "text": "Vaginal discharge or irritation",
+          "refer_to": "Pharmacist",
+          "rationale": "Consider alternative diagnosis."
+        }
+      ],
+      "default_self_care": [
+        "Increase fluids; consider urinary alkalinising sachets for comfort (limited evidence).",
+        "Seek pharmacist assessment for potential Pharmacy First pathway."
+      ],
+      "options": []
+    }
+  ],
+  "global_rules": [
+    {
+      "id": "aspirin-under-16",
+      "type": "contraindication",
+      "applies_to": [
+        "aspirin",
+        "aspirin-containing"
+      ],
+      "criteria": {
+        "age_lt_years": 16
+      },
+      "action": "exclude",
+      "reason": "Aspirin is contraindicated in under‑16s due to risk of Reye’s syndrome (except on medical advice)."
+    },
+    {
+      "id": "nsaid-pregnancy",
+      "type": "contraindication",
+      "applies_to": [
+        "ibuprofen",
+        "naproxen",
+        "diclofenac"
+      ],
+      "criteria": {
+        "pregnant": true
+      },
+      "action": "exclude",
+      "reason": "Avoid NSAIDs during pregnancy, especially in the third trimester."
+    },
+    {
+      "id": "nsaid-gi-ulcer",
+      "type": "contraindication",
+      "applies_to": [
+        "ibuprofen",
+        "naproxen",
+        "diclofenac"
+      ],
+      "criteria": {
+        "conditions_any": [
+          "ulcer",
+          "gi bleed",
+          "severe heart failure",
+          "renal impairment"
+        ]
+      },
+      "action": "exclude",
+      "reason": "NSAIDs increase risk of GI bleeding and renal adverse effects."
+    },
+    {
+      "id": "decongestant-maoi",
+      "type": "contraindication",
+      "applies_to": [
+        "oral-decongestant",
+        "pseudoephedrine"
+      ],
+      "criteria": {
+        "meds_any": [
+          "maoi",
+          "moclobemide"
+        ]
+      },
+      "action": "exclude",
+      "reason": "Avoid sympathomimetic decongestants with monoamine oxidase inhibitors."
+    },
+    {
+      "id": "topical-decongestant-duration",
+      "type": "contraindication",
+      "applies_to": [
+        "topical-decongestant",
+        "xylometazoline"
+      ],
+      "criteria": {
+        "conditions_any": [
+          "rhinitis medicamentosa"
+        ]
+      },
+      "action": "exclude",
+      "reason": "Rebound congestion risk with prolonged use; limit to ≤7 days."
+    },
+    {
+      "id": "dm-maoi-ssri",
+      "type": "contraindication",
+      "applies_to": [
+        "dextromethorphan"
+      ],
+      "criteria": {
+        "meds_any": [
+          "maoi",
+          "ssri"
+        ]
+      },
+      "action": "exclude",
+      "reason": "Risk of serotonin syndrome with MAOIs/SSRIs."
+    },
+    {
+      "id": "hc-face-genitals",
+      "type": "contraindication",
+      "applies_to": [
+        "hydrocortisone-1",
+        "hc-1-bites",
+        "topical-steroid-haem"
+      ],
+      "criteria": {
+        "conditions_any": [
+          "broken skin",
+          "face application",
+          "genital application"
+        ]
+      },
+      "action": "exclude",
+      "reason": "Do not use mild topical steroids on face/genitals or broken skin without medical advice."
+    }
+  ],
+  "copy": {
+    "disclaimer": "Educational demo only — not medical advice. Always follow pack instructions and seek care if unsure. In emergencies call 999.",
+    "emergency_text": "Call 999 for severe chest pain, difficulty breathing, severe bleeding, or if someone is very unwell or hard to wake.",
+    "referral_links": {
+      "nhs_111": "https://111.nhs.uk/",
+      "find_pharmacy": "https://www.nhs.uk/service-search/pharmacy/find-a-pharmacy"
+    }
+  }
+}

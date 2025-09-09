@@ -19,3 +19,5 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
+
+document.addEventListener('click', (e) => { if (e.target.closest('.start-check')) { window.location.href = 'check.html'; } });
