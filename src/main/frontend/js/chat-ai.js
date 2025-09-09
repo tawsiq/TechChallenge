@@ -7,7 +7,7 @@
 
 // Configuration - REPLACE WITH YOUR ACTUAL API KEY
 const AI_CONFIG = {
-  apiKey: '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',
+  apiKey: 'your-openai-api-key-here', // Replace with your actual OpenAI API key
   model: 'gpt-3.5-turbo',
   apiUrl: 'https://api.openai.com/v1/chat/completions'
 };
@@ -508,18 +508,19 @@ function getCurrentWWHAMQuestion() {
 
 function formatWWHAMQuestion(questionObj) {
   // Return HTML instead of Markdown so bubbles render nicely
-  let html = `<strong>${questionObj.question}</strong>`;
+  let html = `<div style="line-height:1.5;color:#ffffff;"><strong style="color:#ffffff;font-size:15px;">${questionObj.question}</strong></div>`;
 
   if (questionObj.options && questionObj.options.length) {
-    html += '<br><br><span>Please choose from:</span><ol style="margin: 6px 0 0 18px;">';
+    html += '<div style="margin:12px 0 8px 0;color:#e5e7eb;font-weight:500;">Please choose from:</div>';
+    html += '<ol style="margin:8px 0 0 20px;padding:0;color:#ffffff;">';
     questionObj.options.forEach((option) => {
-      html += `<li>${option}</li>`;
+      html += `<li style="margin:4px 0;padding:2px 0;">${option}</li>`;
     });
-    html += '</ol><div style="margin-top:6px;">Or describe in your own words.</div>';
+    html += '</ol><div style="margin-top:8px;color:#d1d5db;font-style:italic;">Or describe in your own words.</div>';
   }
 
   if (questionObj.required) {
-    html += '<br><br><em>This information is mandatory for safety reasons.</em>';
+    html += '<div style="margin-top:12px;padding:8px;background:#fef3c7;border-radius:6px;color:#92400e;font-style:italic;font-size:13px;">This information is mandatory for safety reasons.</div>';
   }
 
   return html;
@@ -629,10 +630,13 @@ async function proceedToSafetyAndRecommendations(typingElement) {
   if (redFlags.length > 0) {
     const flagMessages = redFlags.map(flag => `<li>⚠️ ${flag.text} — ${flag.rationale}</li>`).join('');
     replaceTyping(typingElement, `
-      <div style="background:#fff7ed;border:1px solid #fdba74;border-radius:8px;padding:12px;">
-        <h3 style="color:#9a3412;margin:0 0 8px 0;">Important safety alert</h3>
-        <ul style="margin:0 0 8px 16px;">${flagMessages}</ul>
-        <p style="margin:0;"><strong>Recommendation:</strong> ${redFlags[0].refer_to}. Please seek medical attention as advised above.</p>
+      <div style="background:#fef2f2;border:2px solid #fca5a5;border-radius:12px;padding:16px;margin:8px 0;">
+        <h3 style="color:#dc2626;margin:0 0 12px 0;font-size:16px;font-weight:600;">⚠️ Important safety alert</h3>
+        <ul style="margin:0 0 12px 18px;color:#991b1b;">${flagMessages}</ul>
+        <div style="padding:8px;background:#ffffff;border-radius:6px;border:1px solid #fca5a5;">
+          <span style="font-weight:600;color:#dc2626;">Recommendation:</span> 
+          <span style="color:#7f1d1d;">${redFlags[0].refer_to}. Please seek medical attention as advised above.</span>
+        </div>
       </div>
     `);
     return;
@@ -645,7 +649,15 @@ async function proceedToSafetyAndRecommendations(typingElement) {
   const known = (bnfData?.conditions || []).map(c => c.name).slice(0, 6);
     const suggest = known.length ? `<br><br>Examples: <em>${known.join(', ')}</em>` : '';
     replaceTyping(typingElement, `
-      I couldn't determine a suitable over-the-counter option with the current details. To help me recommend safely, could you confirm the main problem you're treating?${suggest}
+      <div style="padding:16px;background:#f8fafc;border-radius:12px;border:2px solid #e2e8f0;">
+        <div style="margin-bottom:12px;color:#374151;font-weight:500;">
+          I couldn't determine a suitable over-the-counter option with the current details. To help me recommend safely, could you confirm the main problem you're treating?
+        </div>
+        ${suggest ? `<div style="margin-top:12px;padding:8px;background:#ffffff;border-radius:6px;">
+          <span style="color:#6b7280;font-weight:500;">Examples:</span> 
+          <div style="color:#059669;font-style:italic;margin-top:4px;">${known.join(', ')}</div>
+        </div>` : ''}
+      </div>
     `);
   // Expect the next user message to clarify condition explicitly
   state.awaitingConditionConfirm = true;
@@ -653,17 +665,19 @@ async function proceedToSafetyAndRecommendations(typingElement) {
     return;
   }
   
-  let response = `<h3 style="color:#1e40af;margin:0 0 8px 0;">💊 Medication recommendations</h3>`;
+  let response = `<h3 style="color:#059669;margin:0 0 12px 0;font-size:18px;font-weight:600;">💊 Medication recommendations</h3>`;
   recommendations.forEach((rec, index) => {
-    response += `<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:8px 0;">`;
-    response += `<h4 style="color:#0f172a;margin:0 0 4px 0;">${index + 1}. ${rec.name}</h4>`;
-    response += `<p style="margin:4px 0;"><strong>Age suitability:</strong> ${rec.ageSuitability}</p>`;
-    response += `<p style="margin:4px 0;"><strong>Dosage:</strong> ${rec.dosage}</p>`;
-    if (rec.rationale) response += `<p style="margin:4px 0;"><em>${rec.rationale}</em></p>`;
-    if (rec.warnings?.length) response += `<p style="margin:4px 0;"><strong>Important notes:</strong> ${rec.warnings.join(', ')}</p>`;
+    response += `<div style="background:#ffffff;border:2px solid #d1fae5;border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 2px 4px rgba(0,0,0,0.1);">`;
+    response += `<h4 style="color:#065f46;margin:0 0 8px 0;font-size:16px;font-weight:600;">${index + 1}. ${rec.name}</h4>`;
+    response += `<div style="margin:8px 0;"><span style="font-weight:600;color:#374151;">Age suitability:</span> <span style="color:#059669;">${rec.ageSuitability}</span></div>`;
+    response += `<div style="margin:8px 0;"><span style="font-weight:600;color:#374151;">Dosage:</span> <span style="color:#1f2937;">${rec.dosage}</span></div>`;
+    if (rec.rationale) response += `<div style="margin:8px 0;padding:8px;background:#f0fdf4;border-radius:6px;color:#166534;font-style:italic;">${rec.rationale}</div>`;
+    if (rec.warnings?.length) response += `<div style="margin:8px 0;padding:8px;background:#fef3c7;border-radius:6px;"><span style="font-weight:600;color:#92400e;">Important notes:</span> <span style="color:#b45309;">${rec.warnings.join(', ')}</span></div>`;
     response += `</div>`;
   });
-  response += `<p style="margin:8px 0 0 0;"><strong>Always read the patient information leaflet and follow the instructions on the packaging.</strong></p>`;
+  response += `<div style="margin:16px 0;padding:12px;background:#f0f9ff;border:2px solid #0ea5e9;border-radius:8px;">
+    <p style="margin:0;color:#0c4a6e;font-weight:600;font-size:14px;">⚠️ Always read the patient information leaflet and follow the instructions on the packaging.</p>
+  </div>`;
   replaceTyping(typingElement, response);
   state.step = 'complete';
 }
@@ -807,10 +821,12 @@ function extractAgeFromAnswers() {
 
 function greet() {
   addMsg('bot', `
-    <div>
-      <p>Hi! I'm here to help you find the right over-the-counter treatment.</p>
-      <p>I will need to ask a few important questions following the WWHAM protocol to ensure safe recommendations.</p>
-      <p><strong>Please describe what symptoms you're experiencing:</strong></p>
+    <div style="line-height:1.6;color:#ffffff;">
+      <p style="margin:0 0 12px 0;font-size:16px;color:#ffffff;">Hi! I'm here to help you find the right over-the-counter treatment.</p>
+      <p style="margin:0 0 12px 0;color:#e5e7eb;">I will need to ask a few important questions following the WWHAM protocol to ensure safe recommendations.</p>
+      <div style="margin:12px 0;padding:12px;background:#1e3a8a;border-radius:8px;border-left:4px solid #3b82f6;">
+        <strong style="color:#ffffff;font-size:15px;">Please describe what symptoms you're experiencing:</strong>
+      </div>
     </div>
   `);
   state.step = 'initial';
