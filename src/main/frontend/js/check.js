@@ -34,14 +34,14 @@ document.getElementById('finish')?.addEventListener('click', () => {
 
 let conditionSets = {};
 let conditionsError = null;
-const conditionsPromise = fetch('data/bnf.json')
+const conditionsPromise = fetch('data/conditions.json')
   .then(res => {
     if (!res.ok) throw new Error('Network response was not ok');
     return res.json();
   })
   .then(data => {
-    const map = Object.fromEntries((data.conditions || []).map(c => [c.id, c]));
-    conditionSets = map;  })
+    conditionSets = data;
+  })
   .catch(err => {
     console.error('Failed to load condition sets', err);
     conditionsError = 'Failed to load condition data.';
@@ -68,40 +68,121 @@ async function injectConditionQuestions() {
 
   const cfg = conditionSets[c];
   const title = document.createElement('h2');
-  title.textContent = cfg.name;
+  title.textContent = cfg.title;
   holder.appendChild(title);
 
-  
-  if (cfg.scope_note) {
-    const scope = document.createElement('p');
-    scope.className = 'muted';
-    scope.textContent = cfg.scope_note;
-    holder.appendChild(scope);
-  }
-  const alerts = getAlerts(c);
-  const box = document.getElementById('alerts');
-  const list = document.getElementById('alert-list');
-  list.innerHTML = '';
-  if (alerts.length) {
-    alerts.forEach(t => {
-      const li = document.createElement('li');
-      li.textContent = t;
-      list.appendChild(li);
-    });
-    box.hidden = false;
-  } else {
-    box.hidden = true;
-  }
+  cfg.questions.forEach(q => {
+    const wrap = document.createElement(q.type === 'fieldset' ? 'fieldset' : 'div');
+    wrap.className = 'field';
+    if (q.type !== 'fieldset') {
+      const label = document.createElement('label');
+      label.textContent = q.label;
+      const id = `${q.name}`;
+      label.setAttribute('for', id);
+      wrap.appendChild(label);
+    }
 
+    if (q.type === 'radio') {
+      const row = document.createElement('div');
+      row.className = 'choice-row';
+      q.options.forEach(opt => {
+        const lab = document.createElement('label');
+        lab.className = 'choice';
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = q.name;
+        input.value = opt;
+        lab.appendChild(input);
+        lab.appendChild(document.createTextNode(opt));
+        row.appendChild(lab);
+      });
+      wrap.appendChild(row);
+    } else if (q.type === 'checkbox') {
+      const row = document.createElement('div');
+      row.className = 'choice-row';
+      q.options.forEach(opt => {
+        const lab = document.createElement('label');
+        lab.className = 'choice';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = q.name;
+        input.value = opt;
+        lab.appendChild(input);
+        lab.appendChild(document.createTextNode(opt));
+        row.appendChild(lab);
+      });
+      wrap.appendChild(row);
+    } else if (q.type === 'text') {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = q.name;
+      input.placeholder = q.label;
+      wrap.appendChild(input);
+    }
+    holder.appendChild(wrap);
+  });
+
+  // Listen for answers to show alerts dynamically
+  holder.addEventListener('change', () => {
+    const ans = collectConditionAnswers();
+    const alerts = getAlerts(c, ans);
+
+    const box = document.getElementById('alerts');
+    const list = document.getElementById('alert-list');
+    list.innerHTML = '';
+    if (alerts.length) {
+      alerts.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        list.appendChild(li);
+      });
+      box.hidden = false;
+    } else {
+      box.hidden = true;
+    }
+  }, { once: true }); // attach once; radios/checkboxes will bubble
 }
 
-function getAlerts(c) {
+function collectConditionAnswers() {
+  const data = {};
+  const inputs = form.querySelectorAll('[data-step="3"] input, [data-step="3"] select, [data-step="3"] textarea');
+  inputs.forEach(el => {
+    if (el.type === 'radio') {
+      if (el.checked) data[el.name] = el.value;
+    } else if (el.type === 'checkbox') {
+      if (!data[el.name]) data[el.name] = [];
+      if (el.checked) data[el.name].push(el.value);
+    } else {
+      data[el.name] = el.value;
+    }
+  });
+  return data;
+}
+
+function checkCondition(cond, ans) {
+  const val = ans[cond.field];
+  if ('equals' in cond) return val === cond.equals;
+  if ('includes' in cond) return Array.isArray(val) && val.includes(cond.includes);
+  if (cond.length) return Array.isArray(val) && val.length > 0;
+  return false;
+}
+
+function getAlerts(c, ans) {
   const cfg = conditionSets[c];
-  return cfg?.red_flags?.map(r => r.text) || [];
+  if (!cfg?.alerts) return [];
+  const out = [];
+  cfg.alerts.forEach(rule => {
+    let triggered = false;
+    if (rule.any) {
+      triggered = rule.any.some(r => checkCondition(r, ans));
+    } else {
+      triggered = checkCondition(rule, ans);
+    }
+    if (triggered) out.push(rule.message);
+  });
+  return out;
 }
 
-
-  
 function buildReview() {
   const review = document.getElementById('review');
   review.innerHTML = '';
@@ -113,7 +194,7 @@ function buildReview() {
     ['Action taken', document.getElementById('ww_action').value || '-'],
     ['Current meds', document.getElementById('ww_medication').value || '-'],
   ];
-  pairs.forEach(([k,v]) => {
+  pairs.forEach(([k, v]) => {
     const row = document.createElement('div');
     row.className = 'pair';
     row.innerHTML = `<div class="muted">${k}</div><div>${v}</div>`;
@@ -123,7 +204,7 @@ function buildReview() {
   // Summarise any alerts
   const c = document.getElementById('condition').value;
   if (c && conditionSets[c]) {
-    const alerts = getAlerts(c);
+    const alerts = getAlerts(c, collectConditionAnswers());
     if (alerts.length) {
       const row = document.createElement('div');
       row.className = 'pair';
@@ -132,3 +213,4 @@ function buildReview() {
     }
   }
 }
+

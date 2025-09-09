@@ -53,3 +53,25 @@
 .chip:hover{background:rgba(255,255,255,.08)}
 
 .btn.small{padding:8px 12px;border-radius:10px;font-size:14px}
+
+/* Medication advice styling in chat */
+.medication-advice h3, .medication-advice h4 {
+  font-weight: 600;
+  line-height: 1.2;
+}
+.medication-advice ul {
+  list-style: disc;
+  margin-left: 16px;
+}
+.medication-advice li {
+  line-height: 1.4;
+}
+.medication-advice div[style*="background: #f8fafc"] {
+  margin: 8px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.medication-advice p {
+  line-height: 1.4;
+}
+
+.disclaimer-text{color:var(--muted);font-size:13px;margin-top:8px}

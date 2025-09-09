@@ -1,0 +1,381 @@
+{
+  "schema": "bnf-counselling-overrides-1",
+  "defaults": {
+    "how_to_store": [
+      "Store medicines in a cool, dry place below 25°C unless the pack says otherwise.",
+      "Keep out of sight and reach of children.",
+      "Do not use after the expiry date or if the seal is broken."
+    ],
+    "general_medication_administration_guidelines": [
+      "Always read the patient information leaflet and follow the pack instructions.",
+      "Do not exceed the stated dose. If a dose is missed, take it when remembered unless it is nearly time for the next dose—do not double up.",
+      "Avoid taking multiple products containing the same active ingredient (e.g., paracetamol in cold/flu remedies).",
+      "If symptoms worsen or do not improve within the timeframe noted for this condition, seek advice from a pharmacist, GP, or NHS 111."
+    ]
+  },
+  "fallbacks": {
+    "when_to_take": ["Use recommended products as directed on the pack during symptomatic periods."],
+    "how_to_take_properly": ["Follow the instructions on the label; ask a pharmacist if unsure."],
+    "what_side_effects_to_watch_for": ["Stop and seek advice if severe rash, breathing difficulty, swelling, or persistent worsening occurs."],
+    "important_safety_considerations": ["Check age limits, pregnancy/breastfeeding advice, existing conditions and other medicines before use."]
+  },
+  "by_condition_id": {
+    "headache-simple": {
+      "when_to_take": [
+        "Take simple analgesics at the onset of pain; repeat only as needed within max daily dose limits.",
+        "Space doses 4–6 hours apart (paracetamol/ibuprofen)."
+      ],
+      "how_to_take_properly": [
+        "Swallow tablets with water. Take ibuprofen with food or milk to reduce stomach upset.",
+        "Avoid alcohol while using painkillers, especially paracetamol."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Paracetamol: generally well tolerated; overdose can cause serious liver harm—seek urgent help if too much is taken.",
+        "Ibuprofen/NSAIDs: indigestion, heartburn; stop and seek help if you notice black stools, vomiting blood, wheezing, or rash."
+      ],
+      "important_safety_considerations": [
+        "Do not use ibuprofen if pregnant, if you have active or past stomach ulcers/bleeding, severe heart failure, or NSAID-sensitive asthma.",
+        "Avoid taking other paracetamol-containing products at the same time."
+      ]
+    },
+    "allergic-rhinitis": {
+      "when_to_take": [
+        "Start non-sedating antihistamines daily during symptomatic periods; consider taking before expected exposure (e.g., high-pollen days).",
+        "Use intranasal steroids regularly each day; benefits build over several days."
+      ],
+      "how_to_take_properly": [
+        "Antihistamines: take once daily at about the same time; if drowsy, try taking at night.",
+        "Nasal sprays: blow nose gently, prime the spray, tilt head slightly forward, point nozzle slightly outwards (away from nasal septum), spray and sniff gently."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Antihistamines: drowsiness (less common with non-sedating types), dry mouth.",
+        "Nasal steroids: nasal irritation, mild nosebleeds—stop and seek advice if persistent."
+      ],
+      "important_safety_considerations": [
+        "Avoid alcohol or other sedating medicines if you feel drowsy on antihistamines.",
+        "Seek advice in pregnancy/breastfeeding for product choice and dosing."
+      ]
+    },
+    "dyspepsia-heartburn": {
+      "when_to_take": [
+        "Alginates/antacids: after meals and at bedtime for symptom relief.",
+        "Omeprazole (OTC): once each morning before food for up to 14 days."
+      ],
+      "how_to_take_properly": [
+        "Chew or dissolve antacid tablets as directed; shake liquids before use.",
+        "Separate antacids from other oral medicines by 2–3 hours (they can affect absorption).",
+        "Swallow omeprazole capsules whole with water; do not crush."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Antacids/alginates: bloating, constipation or diarrhoea; high sodium load in some products.",
+        "Omeprazole: headache, abdominal pain; seek advice if persistent or severe."
+      ],
+      "important_safety_considerations": [
+        "If symptoms persist beyond 14 days on a PPI, or you develop alarm features (e.g., swallowing difficulty, weight loss, vomiting blood), seek urgent medical advice.",
+        "Check interactions (e.g., omeprazole can reduce effectiveness of clopidogrel)."
+      ]
+    },
+    "acute-diarrhoea": {
+      "when_to_take": [
+        "Begin oral rehydration salts (ORS) as soon as diarrhoea starts; sip frequently.",
+        "Use loperamide only for short-term control when no blood or fever is present."
+      ],
+      "how_to_take_properly": [
+        "ORS: dissolve sachets exactly as per pack; discard any prepared solution after 24 hours.",
+        "Loperamide: 2 mg initially, then 2 mg after each loose stool (adult max 16 mg/day). Stop when stools are formed."
+      ],
+      "what_side_effects_to_watch_for": [
+        "ORS: generally safe; nausea or bloating can occur.",
+        "Loperamide: constipation, abdominal cramps; stop and seek advice if abdominal swelling or no improvement within 48 hours."
+      ],
+      "important_safety_considerations": [
+        "Seek urgent care if signs of dehydration (very drowsy, no urine ≥8 hours, dizziness/fainting).",
+        "Do not take loperamide with bloody diarrhoea or high fever."
+      ]
+    },
+    "sore-throat-acute": {
+      "when_to_take": [
+        "Use simple analgesics for pain/fever as needed within max daily doses.",
+        "Topical lozenges/sprays can be used between analgesic doses for short-term relief."
+      ],
+      "how_to_take_properly": [
+        "Dissolve lozenges slowly; avoid eating/drinking immediately after sprays or gargles to allow contact time.",
+        "Maintain hydration with warm or cool fluids."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Topical anaesthetics: numbness or tingling; rarely allergic reaction—stop if swelling or rash occurs.",
+        "Analgesics: see headache guidance for paracetamol/ibuprofen cautions."
+      ],
+      "important_safety_considerations": [
+        "Do not exceed the stated maximum number of lozenges/sprays per day.",
+        "Seek help if severe one-sided pain, breathing difficulty, or symptoms persist >7 days."
+      ]
+    },
+    "common-cold": {
+      "when_to_take": [
+        "Topical decongestant: up to 2–3 times daily for no more than 7 days.",
+        "Oral decongestant: daytime use; avoid near bedtime due to stimulation."
+      ],
+      "how_to_take_properly": [
+        "Use nasal sprays with correct technique (see allergic rhinitis).",
+        "Avoid combining multiple ‘cold & flu’ products that duplicate ingredients."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Topical decongestants: rebound congestion if used >7 days.",
+        "Oral decongestants: insomnia, palpitations, raised blood pressure—stop if these occur."
+      ],
+      "important_safety_considerations": [
+        "Avoid oral decongestants with MAOIs or uncontrolled hypertension.",
+        "In pregnancy, avoid decongestants unless advised."
+      ]
+    },
+    "cough-acute": {
+      "when_to_take": [
+        "Simple linctus: as needed for throat irritation.",
+        "Dextromethorphan: for dry/tickly cough; avoid if productive.",
+        "Guaifenesin: for chesty/productive cough; drink plenty of fluids."
+      ],
+      "how_to_take_properly": [
+        "Measure syrups with the supplied cup/spoon; avoid household spoons.",
+        "Allow demulcents to coat the throat by swallowing slowly."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Dextromethorphan: drowsiness, dizziness; stop if agitation or confusion.",
+        "Guaifenesin: nausea or upset stomach."
+      ],
+      "important_safety_considerations": [
+        "Do not use dextromethorphan with MAOIs or SSRIs (serotonin syndrome risk).",
+        "Seek GP review if cough lasts ≥3 weeks, or if you cough blood, develop chest pain or breathlessness."
+      ]
+    },
+    "constipation": {
+      "when_to_take": [
+        "Bulk-forming laxatives: take with meals and plenty of water; effects in 24–72 hours.",
+        "Osmotic laxatives: regular daily dosing; effects in 24–48 hours (lactulose slower).",
+        "Stimulants: short-term at night for effect next morning."
+      ],
+      "how_to_take_properly": [
+        "Always take bulk-forming agents with at least a full glass of water to avoid obstruction.",
+        "Maintain fluids and fibre; keep a regular toilet routine (after meals)."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Bulk-forming: bloating or wind initially.",
+        "Osmotic: diarrhoea or cramping if too much.",
+        "Stimulant: abdominal cramps—short courses only."
+      ],
+      "important_safety_considerations": [
+        "Avoid long-term stimulant use without advice.",
+        "Seek help if severe abdominal pain, vomiting, or unexplained rectal bleeding."
+      ]
+    },
+    "haemorrhoids": {
+      "when_to_take": [
+        "Apply local treatments after bathing and after bowel movements for comfort.",
+        "Limit topical hydrocortisone to short courses (≤7 days)."
+      ],
+      "how_to_take_properly": [
+        "Apply a thin layer externally; avoid internal use unless the product specifically indicates and you have been advised.",
+        "Use stool-softening measures (diet/fluids) alongside topical treatments."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Local anaesthetics: temporary stinging or irritation.",
+        "Topical steroids: skin thinning with prolonged use."
+      ],
+      "important_safety_considerations": [
+        "Seek assessment if severe pain/swelling (possible thrombosed pile) or rectal bleeding with change in bowel habit."
+      ]
+    },
+    "mouth-ulcers": {
+      "when_to_take": [
+        "Use treatments after meals and at bedtime to prolong contact time."
+      ],
+      "how_to_take_properly": [
+        "Chlorhexidine: rinse and spit; avoid immediately before/after toothbrushing.",
+        "Benzydamine: spray directly onto sore area; may sting briefly.",
+        "Hydrocortisone buccal: allow tablet to dissolve against the ulcer—do not chew or swallow whole."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Chlorhexidine: altered taste, reversible staining of teeth/tongue.",
+        "Benzydamine: numbness or stinging."
+      ],
+      "important_safety_considerations": [
+        "See a GP if an ulcer persists >3 weeks, is very large, or you feel unwell."
+      ]
+    },
+    "cold-sore": {
+      "when_to_take": [
+        "Start aciclovir 5% cream at the first tingling stage for best effect; continue for ~5 days."
+      ],
+      "how_to_take_properly": [
+        "Wash hands before/after application; apply a thin layer five times daily.",
+        "Avoid touching eyes; do not share creams or towels."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Mild stinging or dryness at the application site; stop if severe irritation or rash."
+      ],
+      "important_safety_considerations": [
+        "Seek urgent eye assessment if the eye becomes involved."
+      ]
+    },
+    "head-lice": {
+      "when_to_take": [
+        "Apply treatment to dry hair and leave on for the time stated; repeat after 7 days to kill newly hatched lice."
+      ],
+      "how_to_take_properly": [
+        "Cover the entire scalp and all hair from root to tip; use sufficient product for hair length and thickness.",
+        "Comb with a fine-tooth nit comb after treatment and on subsequent days as advised."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Mild scalp irritation or dryness."
+      ],
+      "important_safety_considerations": [
+        "Many products are flammable—keep away from naked flames, cigarettes, or heat-styling while wet with product.",
+        "Treat close contacts simultaneously and check again after 7 days."
+      ]
+    },
+    "threadworm": {
+      "when_to_take": [
+        "Single dose mebendazole (pharmacist-supplied) with repeat in 2 weeks for reinfestation control."
+      ],
+      "how_to_take_properly": [
+        "Take with water; all household members should be treated at the same time if advised.",
+        "Strict hygiene for 2 weeks: handwashing, morning showering, daily laundering of bedding/pyjamas."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Occasional abdominal pain, diarrhoea, or rash—seek advice if severe."
+      ],
+      "important_safety_considerations": [
+        "Avoid in pregnancy unless specifically advised by a clinician."
+      ]
+    },
+    "fungal-skin": {
+      "when_to_take": [
+        "Apply antifungal creams once or twice daily as directed; continue 1–2 weeks after the rash clears to prevent relapse."
+      ],
+      "how_to_take_properly": [
+        "Clean and dry the area before application; apply a thin layer covering ~1–2 cm beyond the visible edge.",
+        "Wash hands after applying to avoid spread."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Local irritation, redness, or burning; stop if severe."
+      ],
+      "important_safety_considerations": [
+        "Seek GP review for nail or scalp involvement or if no improvement after 2–4 weeks."
+      ]
+    },
+    "eczema-mild": {
+      "when_to_take": [
+        "Use leave-on emollients liberally and frequently (at least 3–4 times per day).",
+        "Apply mild steroid (hydrocortisone 1%) once daily for short flares, usually up to 7 days."
+      ],
+      "how_to_take_properly": [
+        "Apply emollients in the direction of hair growth; use as soap substitute for washing.",
+        "Apply steroid thinly (fingertip-unit guidance) to inflamed areas only; wait ~30 minutes between emollient and steroid to avoid dilution."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Emollients: rarely folliculitis or irritation.",
+        "Topical steroids: skin thinning or stretch marks with prolonged/incorrect use."
+      ],
+      "important_safety_considerations": [
+        "Do not use topical steroids on face/genitals or broken skin without advice.",
+        "Paraffin-based products are flammable—keep away from naked flames/smoking; regularly change clothing/bedding."
+      ]
+    },
+    "dry-eye": {
+      "when_to_take": [
+        "Use lubricating drops regularly during the day; gels/ointments at night for persistent symptoms."
+      ],
+      "how_to_take_properly": [
+        "Wash hands; avoid touching the dropper tip; place one drop into the lower eyelid pocket, then close the eye and blink gently.",
+        "If using multiple eye products, separate by at least 5–10 minutes; gels last."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Temporary blurred vision or stinging after application—avoid driving until vision clears."
+      ],
+      "important_safety_considerations": [
+        "Remove contact lenses before use unless the product is compatible; use preservative-free options if dosing frequently."
+      ]
+    },
+    "earwax": {
+      "when_to_take": [
+        "Use softening drops 2–3 times daily for several days before any professional irrigation."
+      ],
+      "how_to_take_properly": [
+        "Warm the bottle in the hand, tilt head, instil drops, and keep the ear upward for a few minutes to aid penetration.",
+        "Do not insert cotton buds or other objects into the ear canal."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Mild ear irritation or temporary hearing change; stop if pain or discharge occurs."
+      ],
+      "important_safety_considerations": [
+        "Do not use if you have ear pain, discharge, perforated eardrum, or grommets—seek GP advice."
+      ]
+    },
+    "insect-bites": {
+      "when_to_take": [
+        "Take a non-sedating antihistamine once daily for itch/swelling as needed.",
+        "Apply hydrocortisone 1% thinly 1–2 times daily for up to 7 days if inflamed (age limits apply)."
+      ],
+      "how_to_take_properly": [
+        "Use cold packs for 10 minutes at a time to reduce swelling.",
+        "Avoid scratching to prevent infection; keep nails short."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Antihistamines: possible drowsiness or dry mouth.",
+        "Topical steroids: local irritation; avoid broken skin."
+      ],
+      "important_safety_considerations": [
+        "Seek urgent help if breathing difficulty, facial/lip swelling, or dizziness develops (possible anaphylaxis).",
+        "Seek GP review if the area becomes increasingly red, hot, and painful (possible cellulitis)."
+      ]
+    },
+    "muscle-strain": {
+      "when_to_take": [
+        "Use simple analgesics on the shortest schedule needed for pain control.",
+        "Topical NSAID gels can be applied 3–4 times daily for local pain."
+      ],
+      "how_to_take_properly": [
+        "Rest briefly (24–48 h) then begin gentle mobilisation; use heat for stiffness and ice for swelling (10–15 min per session).",
+        "Apply gels to intact skin only; wash hands after use."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Oral NSAIDs: indigestion, black stools, or wheeze—stop and seek advice.",
+        "Topical NSAIDs: skin irritation or photosensitivity with some products."
+      ],
+      "important_safety_considerations": [
+        "Avoid NSAIDs in pregnancy and if you have a history of ulcers/bleeding or severe heart/kidney disease.",
+        "Do not apply topical NSAIDs to broken skin or under occlusive dressings unless advised."
+      ]
+    },
+    "vaginal-thrush": {
+      "when_to_take": [
+        "This pathway is triage-only. A pharmacist will confirm diagnosis and advise an appropriate product/course if suitable."
+      ],
+      "how_to_take_properly": [
+        "Follow product instructions exactly as advised by the pharmacist (e.g., single-dose pessary with external cream, or short topical course).",
+        "Avoid perfumed soaps; wear breathable cotton underwear."
+      ],
+      "what_side_effects_to_watch_for": [
+        "Local burning or irritation—seek advice if severe or if symptoms persist/worsen."
+      ],
+      "important_safety_considerations": [
+        "Seek pharmacist/GP advice if pregnant, under 16, over 60, first episode, recurrent episodes (≥4/year), or symptoms after previous treatment."
+      ]
+    },
+    "uti-women-triage": {
+      "when_to_take": [
+        "This pathway is triage-only. A pharmacist assessment (Pharmacy First) may be appropriate based on symptoms."
+      ],
+      "how_to_take_properly": [
+        "Increase fluid intake; some people use short courses of urinary alkalinising sachets for comfort (limited evidence).",
+        "Simple analgesics can help with discomfort if suitable for you."
+      ],
+      "what_side_effects_to_watch_for": [
+        "If fever, flank/side pain, vomiting, or blood in urine develops—seek medical advice urgently."
+      ],
+      "important_safety_considerations": [
+        "Pharmacist/GP review is needed for pregnancy, men, children, recurrent UTIs, or symptoms lasting >48 hours without improvement."
+      ]
+    }
+  }
+}

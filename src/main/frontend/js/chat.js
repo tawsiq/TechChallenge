@@ -195,6 +195,12 @@ const adviceAgent = {
       answers: {} // we’re not building the whole step-3 matrix here
     };
     const res = window.Engine?.evaluate ? window.Engine.evaluate(payload) : { title:'General', advice:[], selfCare:[], cautions:[], flags:[] };
+    
+    // Extract just the medication names from the enhanced advice objects
+    if (res.advice && Array.isArray(res.advice)) {
+      res.advice = res.advice.map(med => med.name || 'Unknown medication');
+    }
+    
     // merge flags/cautions picked by safetyAgent
     res.flags = Array.from(new Set([...(res.flags||[]), ...state.flags]));
     res.cautions = Array.from(new Set([...(res.cautions||[]), ...state.cautions]));
@@ -246,25 +252,91 @@ function handleSlotFill(text){
 
 function handleSafety(text){
   safetyAgent.evaluate(text);
-  // Summarise + suggest next step
+  // Summarise + show medication advice directly
   const t = addTyping();
   setTimeout(()=>{
     const res = adviceAgent.summarise();
     const bullets = (arr)=> arr.map(x=>`• ${x}`).join('<br>');
+    
+    // Generate medication advice using engine
+    let medAdvice = '';
+    try {
+      const result = window.Engine?.evaluate({
+        condition: state.condition,
+        who: state.who,
+        what: state.what,
+        duration: state.duration,
+        meds: state.meds,
+        answers: state.answers
+      });
+      
+      if (result && result.advice?.length) {
+        medAdvice = '<h3 style="color: #2563eb; margin: 12px 0 8px 0;">💊 Recommended Medications</h3>';
+        
+        result.advice.forEach((med) => {
+          medAdvice += `<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin: 8px 0;">`;
+          medAdvice += `<h4 style="color: #1e40af; margin: 0 0 6px 0;">${med.name}</h4>`;
+          if (med.ingredient) medAdvice += `<p style="margin: 4px 0;"><strong>Active ingredient:</strong> ${med.ingredient}</p>`;
+          if (med.description) medAdvice += `<p style="margin: 4px 0;"><em>${med.description}</em></p>`;
+          if (med.dosage) medAdvice += `<p style="margin: 4px 0;"><strong>Dosage:</strong> ${med.dosage}</p>`;
+          medAdvice += `</div>`;
+        });
+        
+        if (result.generalTiming?.length) {
+          medAdvice += `<h4 style="color: #059669; margin: 12px 0 6px 0;">⏰ When to Take</h4><ul style="margin: 4px 0; padding-left: 16px;">`;
+          result.generalTiming.forEach(item => medAdvice += `<li style="margin: 2px 0;">${item}</li>`);
+          medAdvice += `</ul>`;
+        }
+        
+        if (result.administration?.length) {
+          medAdvice += `<h4 style="color: #0891b2; margin: 12px 0 6px 0;">📋 How to Take</h4><ul style="margin: 4px 0; padding-left: 16px;">`;
+          result.administration.forEach(item => medAdvice += `<li style="margin: 2px 0;">${item}</li>`);
+          medAdvice += `</ul>`;
+        }
+        
+        if (result.storage?.length) {
+          medAdvice += `<h4 style="color: #7c3aed; margin: 12px 0 6px 0;">🏠 Storage</h4><ul style="margin: 4px 0; padding-left: 16px;">`;
+          result.storage.forEach(item => medAdvice += `<li style="margin: 2px 0;">${item}</li>`);
+          medAdvice += `</ul>`;
+        }
+        
+        if (result.warnings?.length) {
+          medAdvice += `<h4 style="color: #dc2626; margin: 12px 0 6px 0;">⚠️ Important Warnings</h4><ul style="margin: 4px 0; padding-left: 16px;">`;
+          result.warnings.forEach(item => medAdvice += `<li style="margin: 2px 0; color: #dc2626;">${item}</li>`);
+          medAdvice += `</ul>`;
+        }
+        
+        if (result.selfCare?.length) {
+          medAdvice += `<h4 style="color: #059669; margin: 12px 0 6px 0;">🌿 Self-Care Tips</h4><ul style="margin: 4px 0; padding-left: 16px;">`;
+          result.selfCare.forEach(item => medAdvice += `<li style="margin: 2px 0;">${item}</li>`);
+          medAdvice += `</ul>`;
+        }
+      }
+    } catch (error) {
+      console.error('Error generating medication advice:', error);
+      medAdvice = `<em>Unable to generate medication advice: ${error.message}</em>`;
+    }
+    
     replaceTyping(t, `
-      <strong>Summary so far</strong><br>
+      <strong>Summary</strong><br>
       Condition: ${state.condition || '-'}<br>
       Who: ${state.who || '-'}<br>
       Duration: ${state.duration || '-'}<br><br>
-      <strong>Advice</strong><br>${bullets(res.advice)}<br><br>
-      ${res.cautions?.length ? `<strong>Cautions</strong><br>${bullets(res.cautions)}<br><br>`:''}
-      ${res.flags?.length ? `<strong>Important</strong><br>${bullets(res.flags)}<br><br>`:''}
-      You can type more details, or <a href="results.html">view the Results page</a>.
+      
+      ${medAdvice}
+      
+      ${res.cautions?.length ? `<h4 style="color: #d97706; margin: 12px 0 6px 0;">⚠️ Cautions</h4>${bullets(res.cautions)}<br><br>`:''}
+      ${res.flags?.length ? `<h4 style="color: #dc2626; margin: 12px 0 6px 0;">🚨 Red Flags - Seek Medical Attention</h4>${bullets(res.flags)}<br><br>`:''}
+      
+      <div style="background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 8px; padding: 12px; margin: 12px 0;">
+        <p style="margin: 0; color: #0c4a6e;"><strong>Next Steps:</strong> You can ask me more questions or start a new consultation.</p>
+      </div>
     `);
-    // Persist to results page
+    
+    // Persist state for any future reference
     sessionStorage.setItem('checkPayload', JSON.stringify({
       condition: state.condition, who: state.who, howlong: state.duration,
-      what: state.what, action: state.action, meds: state.meds, answers: {}
+      what: state.what, action: state.action, meds: state.meds, answers: state.answers
     }));
     state.step = 'free'; // continue chatting if user wants
   }, 500);

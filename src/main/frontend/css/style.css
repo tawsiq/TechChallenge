@@ -12,6 +12,16 @@
     --shadow:0 10px 30px rgba(0,0,0,.25);
     --maxw:1100px;
   }
+
+.menu a.active,
+.menu a[aria-current="page"] {
+    color: var(--brand);
+    font-weight: 600;
+}
+
+.disclaimer-text {
+    margin-top: 10px;
+}
   
   *{box-sizing:border-box}
   html,body{height:100%}
@@ -38,7 +48,7 @@
   .skip-link:focus{left:16px;top:16px;width:auto;height:auto;background:#000;color:#fff;padding:6px 10px;border-radius:8px}
   
   /* Header / nav */
-  .site-header{position:sticky;top:0;z-index:5;background:rgba(14,17,22,.75);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
+  .site-header{position:sticky;top:0;z-index:5;background:rgba(14,17,22,.75);-webkit-backdrop-filter:saturate(140%) blur(12px);backdrop-filter:saturate(140%) blur(12px);border-bottom:1px solid rgba(255,255,255,.06)}
   .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
   .brand{display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;font-weight:700}
   .logo{width:22px;height:22px;fill:var(--brand)}
