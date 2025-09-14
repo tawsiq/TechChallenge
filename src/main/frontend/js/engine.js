@@ -111,6 +111,10 @@
       if(option.breastfeeding.note) cautions.push(option.breastfeeding.note);
       else cautions.push('Check suitability while breastfeeding.');
     }
+    // Basic contraindication & interaction surfacing (non-clinical demo)
+    if(option.contraindications && option.contraindications.length){
+      cautions.push(...option.contraindications.map(c=>`Avoid / caution: ${c}`));
+    }
     return {ok, cautions};
   }
 
@@ -162,23 +166,63 @@
 
     const details = getDetails(payload);
     console.log('Patient details:', details);
-    const advice = [], cautions = [], flags = checkRedFlags(condition, payload.answers);
+  const advice = [], cautions = [], flags = checkRedFlags(condition, payload.answers);
+  const optionTraces = []; // collect per-option eligibility reasoning
+  const rationaleMap = {}; // medicationName -> rationale bullets
+
+    // Normalise list of things already tried / currently taken for filtering
+    const triedText = `${payload.action||''} ${payload.meds||''}`.toLowerCase();
+    const alreadyTried = new Set();
+    triedText.split(/[,;]+| and |\s+/).map(s=>s.trim()).filter(Boolean).forEach(tok=> alreadyTried.add(tok));
+
     for(const option of condition.options || []){
+      const trace = { option: option.class_name, included:false, reasons:[], excluded:[] };
       const o1 = appliesOption(option, details);
-      if(!o1.ok){ cautions.push(...o1.cautions); continue; }
+      if(!o1.ok){
+        trace.excluded.push('Age/pregnancy/breastfeeding limits');
+        trace.reasons.push(...o1.cautions);
+        cautions.push(...o1.cautions);
+        optionTraces.push(trace); continue;
+      }
+      trace.reasons.push('Age & pregnancy/breastfeeding suitability passed');
       const o2 = applyGlobalRules(option, details, payload);
-      if(!o2.ok){ cautions.push(...o2.cautions); continue; }
+      if(!o2.ok){
+        trace.excluded.push('Global safety rule');
+        trace.reasons.push(...o2.cautions);
+        cautions.push(...o2.cautions);
+        optionTraces.push(trace); continue;
+      }
       const medicationName = option.example_products?.[0] || option.class_name;
+      // Already tried?
+      const nameTokens = [medicationName, option.class_name, ...(option.members_examples||[])];
+      const previouslyUsed = nameTokens.some(n=>{
+        const low = (n||'').toLowerCase().split(/\s+/)[0];
+        return alreadyTried.has(low) || triedText.includes(low);
+      });
+      if(previouslyUsed){
+        const msg = `Already reported using ${option.class_name || medicationName}; avoid duplicate dosing.`;
+        cautions.push(msg);
+        trace.excluded.push('Already in use');
+        trace.reasons.push(msg);
+        optionTraces.push(trace); continue;
+      }
+      trace.included = true;
+      trace.reasons.push('Not previously tried');
+      trace.reasons.push(option.typical_use ? `Typical use: ${option.typical_use}` : 'Typical use aligns with condition');
+      if(option.why) trace.reasons.push(...option.why.map(w=>'Why: '+w));
+      if(option.dose_adult) trace.reasons.push('Adult dose reference included');
+      rationaleMap[medicationName] = trace.reasons.slice();
       console.log('Adding medication:', medicationName, 'from option:', option);
       advice.push(medicationName);
       cautions.push(...o1.cautions, ...o2.cautions);
+      optionTraces.push(trace);
     }
     console.log('Raw advice list:', advice);
 
     const uniq = arr => Array.from(new Set(arr.filter(Boolean)));
 
     // Per-medication details (kept as-is, but now our top-level carries richer counselling)
-    const enhancedAdvice = advice.map(medName => {
+  const enhancedAdvice = advice.map(medName => {
       const option = condition.options.find(opt =>
         opt.example_products?.[0] === medName || opt.class_name === medName
       );
@@ -187,6 +231,7 @@
         ingredient: option?.active_ingredient || 'Various active ingredients',
         description: option?.description || 'Follow package instructions carefully',
         dosage: option?.dosage_note || 'As directed on package',
+    rationale: rationaleMap[medName] || [],
         usage: [
           'Take exactly as directed on the package',
           'Do not exceed the recommended dose',
@@ -270,7 +315,22 @@
       ...counsellingOut.what_side_effects_to_watch_for
     ]);
 
-    return {
+    // Escalation guidance: if red flags OR no suitable OTC options left
+    const escalation = [];
+    if(flags.length){
+      escalation.push('One or more red flag features were indicated. Seek urgent medical advice (NHS 111, GP, or A&E per severity).');
+    }
+    if(!advice.length && !flags.length){
+      escalation.push('No suitable over-the-counter options identified based on age/pregnancy/previous use; seek pharmacist or GP advice.');
+    }
+    if(payload.duration && /Recurrent|> 7 days|14/i.test(payload.duration) && !flags.length){
+      escalation.push('Persistent or recurrent symptoms—consider GP/111 review.');
+    }
+    if(escalation.length){
+      warnings.push(...escalation);
+    }
+
+  return {
       title: condition.name,
       advice: enhancedAdvice,
       selfCare: uniq(selfCareAdvice),
@@ -282,11 +342,29 @@
       administration,
       storage,
       warnings,
+  escalation,
 
       // NEW: expose the full structured counselling block too
-      patientCounselling: counsellingOut
+      patientCounselling: counsellingOut,
+      trace: {
+        condition: condition.id,
+        steps: [
+          `Mapped user condition '${payload.condition}' to dataset id '${condition.id}'`,
+          `Derived patient profile: age=${details.age ?? 'unknown'}${details.pregnant?' pregnant':''}${details.breastfeeding?' breastfeeding':''}`,
+          `${flags.length? flags.length+' red flag(s) detected':'No dataset red flags triggered by structured answers'}`,
+          `${advice.length} option(s) included, ${optionTraces.filter(o=>!o.included).length} excluded`
+        ],
+        options: optionTraces
+      }
     };
   }
 
-  window.Engine = { evaluate };
+  function getConditionMeta(key){
+    if(!dataset) return null;
+    const condId = condMap[key];
+    if(!condId) return null;
+    return dataset.conditions.find(c=> c.id === condId) || null;
+  }
+
+  window.Engine = { evaluate, getConditionMeta };
 })();

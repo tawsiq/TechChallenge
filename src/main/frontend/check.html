@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Symptom Check (Chat) — TechChallenge</title>
+  <title>Symptom Check (Chat) — Pharmalogic</title>
   <meta name="description" content="Chat-based WWHAM intake with safety screens and OTC guidance." />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/chat.css" />
@@ -15,9 +15,9 @@
 
   <header class="site-header">
     <nav class="nav container">
-      <a class="brand" href="index.html" aria-label="TechChallenge home">
+  <a class="brand" href="index.html" aria-label="Pharmalogic home">
         <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2h4v6h6v4h-6v6h-4v-6H4V8h6V2z"/></svg>
-        <span>TechChallenge</span>
+  <span>Pharmalogic</span>
       </a>
 
       <button class="nav-toggle" aria-expanded="false" aria-controls="menu">Menu</button>
@@ -38,9 +38,13 @@
         <div class="dot"></div>
         <div>
           <h1>Symptom Check</h1>
-          <p class="muted small">Type what's wrong in your own words. I'll ask a few follow-ups (WWHAM) and check for red flags.</p>
+              <p id="chat-subtitle" class="muted small">Type what's wrong in your own words. I'll ask a few follow-ups (WWHAM) and check for red flags.</p>
         </div>
-        <button id="restart" class="btn btn-ghost small">Restart</button>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <label for="llm-toggle" class="muted small" style="margin-right:6px;">Chatty mode</label>
+            <input id="llm-toggle" type="checkbox" aria-label="Enable chatty agent" checked />
+            <button id="restart" class="btn btn-primary small restart-btn" type="button" aria-label="Restart symptom check">Restart</button>
+          </div>
       </div>
 
       <div id="messages" class="messages" role="log" aria-live="polite"></div>
@@ -65,7 +69,7 @@
 
   <footer class="site-footer">
     <div class="container footer-grid">
-      <small>&copy; TechChallenge. Educational prototype.</small>
+  <small>&copy; Pharmalogic. Educational prototype.</small>
       <nav class="footer-nav">
         <a href="index.html#help">Help</a>
         <a href="contact.html">Contact</a>
@@ -76,7 +80,9 @@
 
   <script src="js/app.js"></script>
   <script src="js/engine.js"></script> <!-- medication recommendation engine -->
-  <script src="js/chat-ai.js"></script> <!-- AI-powered chat system -->
+  <script src="js/helpers/nlu.js"></script> <!-- heuristic NLU layer -->
+  <script src="js/agents/llm-agent.js"></script> <!-- optional LLM agent scaffold -->
+  <script src="js/chat.js"></script> <!-- canonical chat system -->
   <script src="js/ux-enhancements.js" defer></script>
 </body>
 </html>
