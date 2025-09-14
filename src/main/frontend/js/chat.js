@@ -10,7 +10,6 @@ const messagesEl = document.getElementById('messages');
 const inputEl = document.getElementById('input');
 const formEl = document.getElementById('composer');
 const restartEl = document.getElementById('restart');
-const llmToggleEl = document.getElementById('llm-toggle');
 const subtitleEl = document.getElementById('chat-subtitle');
 
 // ---------- UI helpers ----------
@@ -74,99 +73,145 @@ function bindChips(){
   });
 }
 
-// ---------- Enhanced lightweight NLU (still heuristic) ----------
-// Condition keyword + synonym bank
-const CONDITION_SYNONYMS = {
-  headache: ['headache','head pain','throbbing head','tension','pressure head','migraine-ish'],
-  hayfever: ['hay fever','hayfever','allergy','allergic rhinitis','itchy nose','sneezing','pollen'],
-  indigestion: ['heartburn','indigestion','acid reflux','acid','reflux','burning chest'],
-  diarrhoea: ['diarrhoea','diarrhea','loose stools','runny stools','the runs','tummy bug'],
-  sorethroat: ['sore throat','throat pain','hurts to swallow','painful swallow','pharyngitis','raw throat']
+// ---------- Natural Language Understanding ----------
+// Enhanced condition matching with more conversational patterns
+const CONDITION_PATTERNS = {
+  headache: [
+    /head(ache|s? (hurt|pain|pound|throb))/i,
+    /migraine/i,
+    /tension.*head/i,
+    /pressure.*head/i,
+    /skull.*pain/i
+  ],
+  hayfever: [
+    /hay\s?fever/i,
+    /(runny|stuffy|blocked).*nose/i,
+    /(sneezing|sneez)/i,
+    /allergic.*rhinitis/i,
+    /eyes.*itch/i,
+    /pollen/i,
+    /seasonal.*allerg/i
+  ],
+  indigestion: [
+    /heartburn/i,
+    /indigestion/i,
+    /acid.*reflux/i,
+    /burning.*(chest|stomach)/i,
+    /stomach.*burn/i,
+    /after.*eat.*hurt/i
+  ],
+  diarrhoea: [
+    /diarr?h(o|e)ea/i,
+    /loose.*stool/i,
+    /runny.*stool/i,
+    /the.*runs/i,
+    /tummy.*bug/i,
+    /stomach.*upset/i
+  ],
+  sorethroat: [
+    /sore.*throat/i,
+    /throat.*(hurt|pain)/i,
+    /hurt.*swallow/i,
+    /pain.*swallow/i,
+    /throat.*raw/i,
+    /scratchy.*throat/i
+  ]
 };
-
-// Precompiled regex (broad) for quick hit
-const CONDITION_REGEX = {
-  headache: /(headache|throbbing head|tension)/i,
-  hayfever: /(hay\s?fever|allerg|sneez|itchy nose|runny nose|rhinitis|pollen)/i,
-  indigestion: /(heartburn|indigestion|acid|reflux|burning (in|behind) (my )?chest)/i,
-  diarrhoea: /(diarrh(o|h)ea|loose stools|runs|tummy bug)/i,
-  sorethroat: /(sore throat|hurts to swallow|throat pain|pharyng|raw throat)/i
-};
-
-// Simple Levenshtein distance for fuzzy token matching
-function lev(a,b){
-  a = a.toLowerCase(); b = b.toLowerCase();
-  const dp = Array.from({length:a.length+1},()=>Array(b.length+1).fill(0));
-  for(let i=0;i<=a.length;i++) dp[i][0]=i; for(let j=0;j<=b.length;j++) dp[0][j]=j;
-  for(let i=1;i<=a.length;i++) for(let j=1;j<=b.length;j++){
-    dp[i][j] = a[i-1]===b[j-1]? dp[i-1][j-1] : 1+Math.min(dp[i-1][j],dp[i][j-1],dp[i-1][j-1]);
-  }
-  return dp[a.length][b.length];
-}
 
 function classifyCondition(text){
   if(!text) return null;
-  // Quick regex pass
-  for(const k of Object.keys(CONDITION_REGEX)) if(CONDITION_REGEX[k].test(text)) return k;
-  // Fuzzy pass on tokens
-  const tokens = text.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
-  let best = {cond:null, score: Infinity};
-  tokens.forEach(tok=>{
-    for(const [cond, syns] of Object.entries(CONDITION_SYNONYMS)){
-      for(const s of syns){
-        const d = lev(tok.replace(/ing$/,'').slice(0,12), s.split(' ')[0]);
-        if(d < best.score && d <= 2){ // allow small edit distance
-          best = {cond, score:d};
-        }
-      }
+  
+  for(const [condition, patterns] of Object.entries(CONDITION_PATTERNS)){
+    for(const pattern of patterns){
+      if(pattern.test(text)) return condition;
     }
-  });
-  return best.cond;
-}
-
-// Richer duration extractor
-function extractDuration(text){
-  if(!text) return null;
-  const t = text.toLowerCase();
-  // explicit numbers
-  const numMatch = t.match(/(\d+)\s*(hour|hr|day|week)s?/);
-  if(numMatch){
-    const n = parseInt(numMatch[1]);
-    const unit = numMatch[2];
-    if(/hour|hr/.test(unit) || (unit==='day' && n===0)) return '< 24 hours';
-    if(unit.startsWith('day')){
-      if(n<=3) return '1–3 days';
-      if(n<=7) return '4–7 days';
-      return '> 7 days';
-    }
-    if(unit.startsWith('week')) return '> 7 days';
   }
-  if(/yesterday|since last night|last night/.test(t)) return '< 24 hours';
-  if(/couple of days|few days|couple days/.test(t)) return '1–3 days';
-  if(/(nearly|about|around) a week|5|6 days/.test(t)) return '4–7 days';
-  if(/over a week|more than a week|two weeks|\b2 weeks|fortnight|months?/.test(t)) return '> 7 days';
-  if(/recurrent|keeps? coming back|on and off/.test(t)) return 'Recurrent / frequent';
-  if(/<\s*24\s*hours|less than a day|earlier today|today only/.test(t)) return '< 24 hours';
   return null;
 }
 
-// Negation-aware pattern test for safety flags
-const NEGATION_WINDOW = 25; // chars
-function isNegated(text, index){
-  const window = text.slice(Math.max(0,index-NEGATION_WINDOW), index).toLowerCase();
-  return /\b(no|not|without|never|denies|denied)\b/.test(window);
-}
-function mentions(text, re){
+// Natural duration extraction
+function extractDuration(text){
+  if(!text) return null;
   const t = text.toLowerCase();
-  let m;
-  const source = re instanceof RegExp && !re.global ? new RegExp(re.source, re.flags + (re.flags.includes('g')?'':'g')) : re;
-  while((m = source.exec(t))){
-    if(!isNegated(t,m.index)) return true;
+  
+  // Time patterns
+  if(/today|this morning|few hours|started today/.test(t)) return '< 24 hours';
+  if(/yesterday|last night|since yesterday/.test(t)) return '< 24 hours';
+  if(/couple.*days?|2-3.*days?|few.*days?/.test(t)) return '1–3 days';
+  if(/about.*week|nearly.*week|5-6.*days?/.test(t)) return '4–7 days';
+  if(/over.*week|more.*week|weeks?|months?|long time/.test(t)) return '> 7 days';
+  if(/comes?.*goes?|on.*off|recurring|frequent/.test(t)) return 'Recurrent / frequent';
+  
+  // Number matching
+  const numMatch = t.match(/(\d+)\s*(hour|day|week)s?/);
+  if(numMatch){
+    const n = parseInt(numMatch[1]);
+    const unit = numMatch[2];
+    if(unit === 'hour' || n === 0) return '< 24 hours';
+    if(unit === 'day'){
+      if(n <= 3) return '1–3 days';
+      if(n <= 7) return '4–7 days';
+      return '> 7 days';
+    }
+    if(unit === 'week') return '> 7 days';
   }
-  return false;
+  
+  return null;
 }
 
-// ---------- Conversation state ----------
+// ---------- Conversational Response Helpers ----------
+function getRandomResponse(responses) {
+  return responses[Math.floor(Math.random() * responses.length)];
+}
+
+const CONVERSATIONAL_RESPONSES = {
+  greetings: [
+    "Hi! I'm here to help with over-the-counter medicine advice. What's bothering you today?",
+    "Hello! Tell me what symptoms you're experiencing and I'll help find the right treatment.",
+    "Hi there! What can I help you with today? Just describe what's going on in your own words."
+  ],
+  
+  acknowledgments: [
+    "I understand.",
+    "Thanks for letting me know.",
+    "Got it.",
+    "Okay, that helps.",
+    "I see."
+  ],
+
+  clarifications: {
+    who: [
+      "Who is this for?",
+      "Is this for yourself or someone else?",
+      "Can you tell me who needs treatment?"
+    ],
+    duration: [
+      "How long has this been going on?",
+      "When did this start?",
+      "How long have you been experiencing this?"
+    ],
+    action: [
+      "What have you already tried?",
+      "Have you taken anything for this yet?",
+      "Any treatments you've already used?"
+    ],
+    meds: [
+      "Are you currently taking any medicines?",
+      "Any regular medications I should know about?",
+      "What medicines do you normally take?"
+    ]
+  },
+
+  safety: {
+    headache: "Just to be safe - is this a sudden 'worst ever' headache, or do you have any weakness, confusion, or vision problems?",
+    hayfever: "Any pregnancy, breastfeeding, or health conditions I should know about?",
+    indigestion: "Are you having trouble swallowing, or any severe pain?",
+    diarrhoea: "Is there any blood, high fever, or has this been going on more than a week?",
+    sorethroat: "Any high fever, trouble swallowing, or has this lasted over a week?"
+  }
+};
+
+// ---------- Simplified conversation state ----------
 const state = {
   step: 'greet',
   who: null,
@@ -175,31 +220,100 @@ const state = {
   action: '',
   meds: '',
   condition: null,
-  answers: {}, // condition-specific
   flags: [],
   cautions: []
 };
 
-// ---------- Agents (local heuristics) ----------
-const triageAgent = {
-  next(text){
-    // Capture free-form description
-    if (text) state.what = state.what ? state.what + ' ' + text : text;
+// ---------- Simplified Chat Logic ----------
+function analyzeMessage(text) {
+  const t = text.toLowerCase();
+  const analysis = {
+    condition: classifyCondition(text),
+    duration: extractDuration(text),
+    who: null,
+    action: null,
+    meds: null,
+    redFlags: []
+  };
 
-    // Try to classify condition & duration from free text
-    if (!state.condition) state.condition = classifyCondition(text || '') || state.condition;
-    if (!state.duration) state.duration = extractDuration(text || '') || state.duration;
+  // Extract who this is for
+  if(/adult|grown.?up|myself|me|my|i/i.test(t)) analysis.who = 'adult';
+  else if(/teen|teenager|13|14|15|16|17/i.test(t)) analysis.who = 'teen 13–17';
+  else if(/child|kid|son|daughter|8|9|10|11|12/i.test(t)) analysis.who = 'child 5–12';
+  else if(/toddler|little one|2|3|4.year/i.test(t)) analysis.who = 'toddler 1–4';
+  else if(/baby|infant|newborn|under.?1/i.test(t)) analysis.who = 'infant <1';
+  else if(/pregnant|pregnancy|expecting/i.test(t)) analysis.who = 'pregnant';
+  else if(/breastfeeding|nursing|breast.?feeding/i.test(t)) analysis.who = 'breastfeeding';
 
-    // Ask WWHAM pieces that are missing
-  if (!state.who) return 'who';
-  if (!state.duration) return 'howlong';
-  if (!state.condition) return 'condition';
-  // Added WWHAM extras: Action already taken & current Medication
-  if (!state.action) return 'action';
-  if (!state.meds) return 'meds';
-    return 'safety';
+  // Extract what they've tried
+  if(/nothing|none|haven.?t tried/i.test(t)) analysis.action = 'none';
+  else if(/paracetamol|tylenol/i.test(t)) analysis.action = 'paracetamol';
+  else if(/ibuprofen|advil|nurofen/i.test(t)) analysis.action = 'ibuprofen';
+
+  // Extract current medications
+  if(/no.?(medicine|medication|meds)|nothing|none/i.test(t)) analysis.meds = 'none';
+  else if(/paracetamol|ibuprofen|aspirin|antihistamine/i.test(t)) analysis.meds = text;
+
+  // Simple red flag detection
+  if(/worst.ever|thunderclap|sudden.severe/i.test(t)) analysis.redFlags.push('severe headache');
+  if(/blood|bleeding/i.test(t)) analysis.redFlags.push('bleeding');
+  if(/can.?t breathe|chest pain|collapse/i.test(t)) analysis.redFlags.push('emergency symptoms');
+
+  return analysis;
+}
+
+function getNextQuestion() {
+  if (!state.who) return { type: 'who', text: getRandomResponse(CONVERSATIONAL_RESPONSES.clarifications.who) };
+  if (!state.condition) return { type: 'condition', text: "What's the main problem you're dealing with?" };
+  if (!state.duration) return { type: 'duration', text: getRandomResponse(CONVERSATIONAL_RESPONSES.clarifications.duration) };
+  if (!state.action) return { type: 'action', text: getRandomResponse(CONVERSATIONAL_RESPONSES.clarifications.action) };
+  if (!state.meds) return { type: 'meds', text: getRandomResponse(CONVERSATIONAL_RESPONSES.clarifications.meds) };
+  return { type: 'safety', text: CONVERSATIONAL_RESPONSES.safety[state.condition] || "Any concerning symptoms I should know about?" };
+}
+
+function updateStateFromAnalysis(analysis) {
+  if (analysis.condition && !state.condition) {
+    state.condition = analysis.condition;
+    return true;
   }
-};
+  if (analysis.duration && !state.duration) {
+    state.duration = analysis.duration;
+    return true;
+  }
+  if (analysis.who && !state.who) {
+    state.who = analysis.who;
+    return true;
+  }
+  if (analysis.action && !state.action) {
+    state.action = analysis.action;
+    return true;
+  }
+  if (analysis.meds && !state.meds) {
+    state.meds = analysis.meds;
+    return true;
+  }
+  return false;
+}
+
+function evaluateSafety(text) {
+  const t = text.toLowerCase();
+  
+  // Check for red flags based on condition and general symptoms
+  if (state.condition === 'headache' && /worst.ever|thunderclap|head.injury|weakness|confusion|vision/i.test(t)) {
+    state.flags.push('Headache red flags — seek urgent advice (pharmacist/GP/111).');
+  }
+  if (state.condition === 'indigestion' && /trouble.swallow|vomit.*blood|black.stool|severe.pain/i.test(t)) {
+    state.flags.push('Indigestion red flags — urgent medical assessment needed.');
+  }
+  if (state.condition === 'diarrhoea' && /blood|high.fever|severe.pain|week/i.test(t)) {
+    state.flags.push('Diarrhoea red flags — seek medical advice.');
+  }
+  
+  // General emergency symptoms
+  if(/chest.pain|can.?t.breathe|collapse|vomit.*blood/i.test(t)) {
+    state.flags.push('Emergency symptoms — call 999 or go to A&E immediately.');
+  }
+}
 
 const wwhamAgent = {
   ask(slot){
@@ -589,17 +703,30 @@ restartEl.addEventListener('click', ()=>{
 // Start
 greet();
 
-// Wire the LLM toggle (if present) so devs/users can switch chatty mode at runtime
-if(llmToggleEl && window.LLMAgent){
-  // initialise checkbox according to agent state
-  try {
-    llmToggleEl.checked = !!window.LLMAgent.enabled && window.LLMAgent.enabled();
-  } catch(e){ llmToggleEl.checked = true; }
-  // initial subtitle tweak
-  subtitleEl && (subtitleEl.textContent = llmToggleEl.checked ? 'Chatty mode enabled — friendly summaries powered by the local agent.' : 'Deterministic mode — only dataset-derived text will be shown.');
-  llmToggleEl.addEventListener('change', (e)=>{
-    const on = !!e.target.checked;
-    try { window.LLMAgent.setEnabled(on); } catch(_){}
-    subtitleEl && (subtitleEl.textContent = on ? 'Chatty mode enabled — friendly summaries powered by the local agent.' : 'Deterministic mode — only dataset-derived text will be shown.');
+// Force the chatty agent on for end-users (UI toggle removed)
+try { window.LLMAgent.setEnabled(true); } catch(e){}
+subtitleEl && (subtitleEl.textContent = 'Chatty mode enabled — friendly summaries powered by the local agent.');
+
+// Settings panel wiring
+if(llmSettingsBtn && llmSettingsPanel){
+  // restore saved proxy URL
+  const saved = localStorage.getItem('LLM_PROXY_URL');
+  if(saved){ llmProxyInput.value = saved; window.LLM_PROXY_URL = saved; }
+
+  llmSettingsBtn.addEventListener('click', ()=>{
+    const visible = llmSettingsPanel.style.display !== 'none';
+    llmSettingsPanel.style.display = visible ? 'none' : 'block';
+    llmSettingsPanel.setAttribute('aria-hidden', visible ? 'true' : 'false');
+  });
+
+  llmSettingsSave.addEventListener('click', ()=>{
+    const v = (llmProxyInput.value || '').trim();
+    if(v){ localStorage.setItem('LLM_PROXY_URL', v); window.LLM_PROXY_URL = v; }
+    else { localStorage.removeItem('LLM_PROXY_URL'); window.LLM_PROXY_URL = undefined; }
+    llmSettingsPanel.style.display = 'none'; llmSettingsPanel.setAttribute('aria-hidden','true');
+  });
+
+  llmSettingsCancel.addEventListener('click', ()=>{
+    llmSettingsPanel.style.display = 'none'; llmSettingsPanel.setAttribute('aria-hidden','true');
   });
 }

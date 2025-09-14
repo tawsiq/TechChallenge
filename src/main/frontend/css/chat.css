@@ -56,6 +56,14 @@
 .restart-btn{background:linear-gradient(135deg,var(--brand-2),var(--brand));color:#fff !important;border:none;box-shadow:0 2px 6px rgba(0,0,0,.25)}
 .restart-btn:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
+/* LLM toggle layout */
+.llm-toggle-row{display:flex;gap:8px;align-items:center}
+.llm-toggle-row .muted{margin-right:6px}
+
+.llm-settings-panel{margin-top:8px;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04)}
+.llm-settings-panel input[type='text']{width:100%;margin:6px 0;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02)}
+.llm-settings-actions{display:flex;gap:8px;justify-content:flex-end}
+
 /* Medication summary cards (replacing inline light cards) */
 .med-summary h3{color:var(--brand-2);margin:12px 0 8px 0;font-size:18px}
 .med-summary .med-card{background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:12px;margin:10px 0;color:var(--ink)}

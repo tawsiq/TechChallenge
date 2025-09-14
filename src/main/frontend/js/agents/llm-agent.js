@@ -46,7 +46,43 @@
 
   // respond() - placeholder LLM function that returns a conversational summary and optional suggested followups
   async function respond({payload, engineResult}){
-    // Synthesize a friendly, chatty response using only engineResult (trusted dataset)
+    // Try server proxy first (if available). The proxy is expected to return a
+    // safe, presentation-only response. If the proxy is unavailable we fall back
+    // to local templated synthesis (which uses the engineResult directly).
+    try {
+      const proxyUrl = (window.LLM_PROXY_URL && window.LLM_PROXY_URL.trim()) ? window.LLM_PROXY_URL.trim() : '/api/llm';
+      // Minimal sanitisation: allowlist the engineResult fields we want to transmit
+      const safeEngine = {
+        title: engineResult?.title,
+        advice: Array.isArray(engineResult?.advice) ? engineResult.advice.map(a=>({ name:a.name, dosage:a.dosage, description:a.description })) : [],
+        flags: engineResult?.flags || [],
+        cautions: engineResult?.cautions || [],
+        generalTiming: engineResult?.generalTiming || [],
+        administration: engineResult?.administration || [],
+        storage: engineResult?.storage || [],
+        warnings: engineResult?.warnings || [],
+        selfCare: engineResult?.selfCare || []
+      };
+
+      const r = await fetch(proxyUrl, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ prompt: `Summarise for chat UI`, engineResult: safeEngine })
+      });
+      if(r.ok){
+        const j = await r.json();
+        // Expect { text: '<html...' } from the proxy
+        if(j && j.text){
+          return { textHtml: j.text, medHtml: '', structured: engineResult };
+        }
+      }
+      // If proxy returned 501 or other non-ok, fall through to local
+    } catch(err){
+      // network/proxy error - fall back
+      console.warn('LLM proxy call failed, falling back to local agent', err);
+    }
+
+    // Local fallback: synthesize from engineResult
     const textHtml = templateSummary(payload, engineResult);
     let medHtml = '';
     if(engineResult && engineResult.advice?.length){

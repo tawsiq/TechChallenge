@@ -40,9 +40,7 @@
           <h1>Symptom Check</h1>
               <p id="chat-subtitle" class="muted small">Type what's wrong in your own words. I'll ask a few follow-ups (WWHAM) and check for red flags.</p>
         </div>
-          <div style="display:flex;gap:8px;align-items:center;">
-            <label for="llm-toggle" class="muted small" style="margin-right:6px;">Chatty mode</label>
-            <input id="llm-toggle" type="checkbox" aria-label="Enable chatty agent" checked />
+          <div class="llm-toggle-row">
             <button id="restart" class="btn btn-primary small restart-btn" type="button" aria-label="Restart symptom check">Restart</button>
           </div>
       </div>
@@ -80,9 +78,7 @@
 
   <script src="js/app.js"></script>
   <script src="js/engine.js"></script> <!-- medication recommendation engine -->
-  <script src="js/helpers/nlu.js"></script> <!-- heuristic NLU layer -->
-  <script src="js/agents/llm-agent.js"></script> <!-- optional LLM agent scaffold -->
-  <script src="js/chat.js"></script> <!-- canonical chat system -->
+  <script src="js/chat-simple.js"></script> <!-- simplified conversational chat system -->
   <script src="js/ux-enhancements.js" defer></script>
 </body>
 </html>
