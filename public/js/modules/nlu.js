@@ -102,7 +102,9 @@
           if(known.has(tok)) meds.push(tok);
         });
       });
-    } catch {}
+    } catch {
+      // Ignore parsing errors
+    }
     return {action: actions.join(', '), meds: meds.join(', ')};
   }
 
@@ -120,7 +122,7 @@
     return flags;
   }
 
-  function analyze(text, prevState={}){
+  function analyze(text, _prevState={}){
     const out = {};
     if(!text || !text.trim()) return out;
     out.who = detectWho(text) || null;

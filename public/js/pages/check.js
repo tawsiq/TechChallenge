@@ -25,7 +25,8 @@ form?.addEventListener('click', (e) => {
 });
 
 document.getElementById('finish')?.addEventListener('click', () => {
-  alert('Finished demo. This prototype does not submit data.');
+  console.log('Finished demo. This prototype does not submit data.');
+  // Could redirect to results or show completion message
 });
 
 // ----------------------

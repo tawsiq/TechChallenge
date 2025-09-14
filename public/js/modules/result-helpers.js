@@ -97,3 +97,9 @@ function generateExplanationPoints(advice) {
 
     return points.length ? `<ul class="list-none pl-0">${points.join('')}</ul>` : '';
 }
+
+// Export functions to global scope for use by other modules
+window.ResultHelpers = {
+    generateDetailedInformation,
+    generateExplanationPoints
+};

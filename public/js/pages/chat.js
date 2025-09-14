@@ -10,7 +10,7 @@ const formEl = document.getElementById('composer');
 const restartEl = document.getElementById('restart');
 
 // ---------- UI helpers ----------
-function addMsg(role, text, options = {}) {
+function addMsg(role, text, _options = {}) {
   const row = document.createElement('div');
   row.className = `msg ${role}`;
   const avatar = role === 'bot' ? '<div class="avatar" aria-hidden="true"></div>' : '';
@@ -490,7 +490,7 @@ function showFinalAdvice(result) {
   setTimeout(() => {
     // Build proper medical advice display like the original system
     let medAdvice = '';
-    let summaryHtml = `<strong>Summary</strong><br>Condition: ${state.condition || '-'}<br>Who: ${state.who || '-'}<br>Duration: ${state.duration || '-'}<br>Action taken: ${state.action || '-'}<br>Current meds: ${state.meds || '-'}<br><br>`;
+    const summaryHtml = `<strong>Summary</strong><br>Condition: ${state.condition || '-'}<br>Who: ${state.who || '-'}<br>Duration: ${state.duration || '-'}<br>Action taken: ${state.action || '-'}<br>Current meds: ${state.meds || '-'}<br><br>`;
     
     // Check for red flags first
     const hasFlags = (result?.flags?.length || 0) > 0 || state.flags.length > 0;

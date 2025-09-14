@@ -66,7 +66,11 @@
       let cls = seen.get(key);
       if (!cls) {
         cls = hash(key);
-        try { sheet.insertRule(`.${cls}{${key}}`, sheet.cssRules.length); } catch {}
+        try { 
+          sheet.insertRule(`.${cls}{${key}}`, sheet.cssRules.length); 
+        } catch {
+          // Ignore CSS rule insertion errors
+        }
         seen.set(key, cls);
       }
       el.classList.add(cls);
