@@ -192,6 +192,11 @@ const RESPONSES = {
       "When did this start?",
       "How long have you been experiencing this?"
     ],
+    duration: [
+      "How long has this been going on?",
+      "When did this start?",
+      "How long have you been experiencing this?"
+    ],
     action: [
       "What have you already tried?",
       "Have you taken anything for this yet?",
@@ -216,7 +221,7 @@ const RESPONSES = {
 // ---------- Conversation state ----------
 const state = {
   step: 'greet',
-  who: null,
+  who: null, // Who is this for (adult, teen, child, etc.)
   duration: null,
   what: '',
   action: '',
@@ -302,10 +307,11 @@ function updateStateFromAnalysis(analysis) {
     state.duration = analysis.duration;
     updated = true;
   }
-  if (analysis.who && !state.who) {
-    state.who = analysis.who;
-    updated = true;
-  }
+  // Don't auto-fill 'who' - always ask explicitly
+  // if (analysis.who && !state.who) {
+  //   state.who = analysis.who;
+  //   updated = true;
+  // }
   if (analysis.action && !state.action) {
     state.action = analysis.action;
     updated = true;
@@ -374,8 +380,11 @@ function evaluateSafety(text) {
 
 // ---------- Flow Control ----------
 function greet(){
-  botSpeak(getRandomResponse(RESPONSES.greetings));
+  const greetingMessage = getRandomResponse(RESPONSES.greetings);
+  botSpeak(greetingMessage);
   state.step = 'chat';
+  
+  // Don't immediately ask the first WWHAM question - wait for user to describe their problem first
 }
 
 function handleUserMessage(text){
@@ -416,10 +425,23 @@ function handleUserMessage(text){
     state.flags.push(...analysis.redFlags);
   }
   
-  // If we found something new, acknowledge it
-  if (foundSomething) {
-    const ack = getRandomResponse(RESPONSES.acknowledgments);
-    setTimeout(() => botSpeak(ack, { delay: 300 }), 200);
+  // If this is their first message (no current question set), acknowledge and start WWHAM
+  if (!state.currentQuestion && state.step === 'chat') {
+    const ack = foundSomething ? 
+      getRandomResponse(RESPONSES.acknowledgments) : 
+      "Thanks for telling me about that.";
+    
+    botSpeak(ack, { delay: 300 });
+    
+    // Start WWHAM questioning after acknowledgment
+    setTimeout(() => {
+      const next = getNextQuestion();
+      state.currentQuestion = next.type;
+      const t = addTyping();
+      setTimeout(() => replaceTyping(t, next.text), 800);
+      showRelevantChips(next.type);
+    }, 1000);
+    return;
   }
   
   // Check if we have everything we need
